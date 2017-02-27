@@ -1,0 +1,11 @@
+{
+  "name": "functions",
+  "description": "Firebase Functions",
+  "dependencies": {
+    "firebase-admin": "^4.0.5",
+    "firebase-functions": "https://storage.googleapis.com/firebase-preview-drop/node/firebase-functions/firebase-functions-preview.latest.tar.gz",
+    "lodash": "^4.17.4",
+    "@google-cloud/storage": "^0.6.1",
+    "@google-cloud/vision": "^0.7.1"
+  }
+}
