@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewEncapsulation, Input} from '@angular/core';
-import {Avatar} from "../common/avatar.model";
-import {AssetService} from "../common/asset.service";
+import {DataService} from "../common/data.service";
 
 
 @Component({
@@ -10,10 +9,9 @@ import {AssetService} from "../common/asset.service";
     encapsulation: ViewEncapsulation.None
 })
 export class LandingComponent implements OnInit {
-    randomAvatar:Avatar;
 
-    constructor(private assetService: AssetService) {
-        this.randomAvatar = assetService.getRandomAvatar();
+    constructor(private dataService: DataService) {
+
     }
 
     ngOnInit() {}

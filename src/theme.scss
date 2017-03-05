@@ -3,22 +3,22 @@
 
 // Include the base styles for Angular Material core. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
-@include md-core();
+@include mat-core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
-//$fireface-app-primary: md-palette($md-teal, 100, 300, A100);
-//$fireface-app-accent: md-palette($md-cyan, 100, 300, A100);
+//$fireface-app-primary: mat-palette($mat-teal, 100, 300, A100);
+//$fireface-app-accent: mat-palette($mat-cyan, 100, 300, A100);
 
-$fireface-app-primary: md-palette($md-deep-purple, 500, 700, 800);
-$fireface-app-accent: md-palette($md-green, A200, 300, 500);
+$fireface-app-primary: mat-palette($mat-deep-purple, 500, 700, 800);
+$fireface-app-accent: mat-palette($mat-green, A200, 300, 500);
 
 // The warn palette is optional (defaults to red).
-$fireface-app-warn: md-palette($md-red);
+$fireface-app-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$fireface-app-theme: md-light-theme($fireface-app-primary, $fireface-app-accent, $fireface-app-warn);
+$fireface-app-theme: mat-light-theme($fireface-app-primary, $fireface-app-accent, $fireface-app-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component

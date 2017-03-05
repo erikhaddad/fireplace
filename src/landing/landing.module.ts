@@ -6,8 +6,7 @@ import {MaterialModule} from '@angular/material';
 import {FlexLayoutModule} from "@angular/flex-layout";
 
 import {LandingComponent} from './landing.component';
-import {DataService} from '../common/avatar.service';
-import {FeedModule} from "../avatar/avatar.module";
+import {DataService} from '../common/data.service';
 
 const routes: Routes = [
     {path: '',   redirectTo: '/landing', pathMatch: 'full'},
@@ -19,8 +18,6 @@ const routes: Routes = [
         LandingComponent
     ],
     imports: [
-        FeedModule,
-
         CommonModule,
         FormsModule,
         MaterialModule,
