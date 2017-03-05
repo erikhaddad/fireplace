@@ -1,3 +1,9 @@
-<h1>
-  {{title}}
-</h1>
+<div class="app-component-wrapper" fxLayout="column">
+  <app-header [authenticated]="auth.authenticated"
+              [userInfo]="auth.userInfo"
+              (signOut)="signOut($event)"></app-header>
+
+  <main class="main" fxFlex>
+    <router-outlet></router-outlet>
+  </main>
+</div>
