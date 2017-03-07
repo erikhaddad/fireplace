@@ -1,0 +1,49 @@
+.feed-container {
+  overflow: auto;
+  height: calc(100vh - 128px);
+
+  .feed {
+    margin: 24px auto;
+    max-width: 646px;
+  }
+}
+
+
+.post-card {
+  margin: 6px 0 12px;
+
+  .post-header-image {
+    background-size: cover;
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    border: 1px solid white;
+  }
+  .post-user-link {
+    display: inline-block;
+    line-height: 38px;
+    vertical-align: top;
+    text-align: left;
+    text-decoration: none;
+    color: #000;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  .post-time-ago {
+    height: 40px;
+    margin: 0 8px;
+    line-height: 40px;
+    color: rgba(0,0,0,.54);
+    font-size: 13px;
+  }
+  .post-actions {
+    .btn-like {
+      color: #FF5252;
+    }
+    .comment-input {
+      width: 100%;
+    }
+  }
+}

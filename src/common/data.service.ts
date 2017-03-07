@@ -4,66 +4,89 @@ import 'rxjs/add/operator/switchMap';
 import {Injectable} from '@angular/core';
 import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
 import {AuthService} from '../auth/auth.service';
-import {IPost, Post} from './data.model';
+import {IPost, Post, IComment, IPerson, ILike} from './data.model';
 
 @Injectable()
 export class DataService {
-    private _publicPosts$: FirebaseListObservable<IPost[]>;
-    private _userPosts$: FirebaseListObservable<IPost[]>;
-
     private publicPostsPath;
     private userPostsPath;
+    private commentsPath;
+    private likesPath;
+    private peoplePath;
 
-    constructor(private af: AngularFire, auth: AuthService) {
+    private tagsPath;
+    private locationsPath;
+
+    constructor(private af: AngularFire, private auth: AuthService) {
         this.publicPostsPath = `/posts`;
-        this._publicPosts$ = this.af.database.list(this.publicPostsPath, {
-            query: {
-                orderByChild: 'timestamp'
-            }
-        });
+        this.userPostsPath = `/feed/${auth.id}`;
+        this.commentsPath = `/comments/`;
+        this.likesPath = `/likes/`;
+        this.peoplePath = `/people/`;
 
-        this.userPostsPath = `/users/${auth.id}/posts`;
-        this._userPosts$ = this.af.database.list(this.userPostsPath, {
-            query: {
-                orderByChild: 'createdAt'
-            }
-        });
+        this.tagsPath = `/tags/`;
+        this.locationsPath = `/locations/`;
     }
 
 
     get publicPosts(): FirebaseListObservable<IPost[]> {
-        return this._publicPosts$;
+        let publicPostsPath = '/posts';
+        return this.af.database.list(this.publicPostsPath, {
+            query: {
+                orderByChild: 'timestamp'
+            }
+        });
     }
 
     get userPosts(): FirebaseListObservable<IPost[]> {
-        return this._userPosts$;
+        return this.af.database.list(this.userPostsPath);
+    }
+
+    get comments(): FirebaseListObservable<IComment[]> {
+        return this.af.database.list(this.commentsPath);
+    }
+
+    get likes(): FirebaseListObservable<ILike[]> {
+        return this.af.database.list(this.likesPath);
+    }
+
+    get people(): FirebaseListObservable<IPerson[]> {
+        return this.af.database.list(this.peoplePath);
+    }
+
+    get tags(): FirebaseListObservable<any[]> {
+        return this.af.database.list(this.tagsPath);
+    }
+
+    get locations(): FirebaseListObservable<any[]> {
+        return this.af.database.list(this.locationsPath);
     }
 
     /** PUBLIC EVENTS **/
     createPublicPost(post:Post): firebase.Promise<any> {
-        return this._publicPosts$.push(post);
+        return this.af.database.list(this.publicPostsPath).push(post);
     }
     getPublicPost(id: string): FirebaseObjectObservable<any> {
         return this.af.database.object(this.publicPostsPath+'/'+id);
     }
     removePublicPost(post: IPost): firebase.Promise<any> {
-        return this._publicPosts$.remove(post.$key);
+        return this.af.database.list(this.publicPostsPath).remove(post.$key);
     }
     updatePublicPost(post: IPost, changes: any): firebase.Promise<any> {
-        return this._publicPosts$.update(post.$key, changes);
+        return this.af.database.list(this.publicPostsPath).update(post.$key, changes);
     }
 
     /** USER-CENTRIC EVENTS **/
     createUserPost(post:Post): firebase.Promise<any> {
-        return this._userPosts$.push(post);
+        return this.af.database.list(this.userPostsPath).push(post);
     }
     getUserPost(id: string): FirebaseObjectObservable<any> {
         return this.af.database.object(this.userPostsPath+'/'+id);
     }
     removeUserPost(post: IPost): firebase.Promise<any> {
-        return this._userPosts$.remove(post.$key);
+        return this.af.database.list(this.userPostsPath).remove(post.$key);
     }
     updateUserPost(post: IPost, changes: any): firebase.Promise<any> {
-        return this._userPosts$.update(post.$key, changes);
+        return this.af.database.list(this.userPostsPath).update(post.$key, changes);
     }
 }

@@ -32,6 +32,14 @@ export class AppComponent {
         iconRegistry.addSvgIcon(
             'github',
             sanitizer.bypassSecurityTrustResourceUrl('assets/icons/auth/github.svg'));
+
+        iconRegistry.addSvgIcon(
+            'logo_white',
+            sanitizer.bypassSecurityTrustResourceUrl('assets/images/logo_fireplace_white.svg'));
+
+        iconRegistry.addSvgIcon(
+            'logo_color',
+            sanitizer.bypassSecurityTrustResourceUrl('assets/images/logo_fireplace_color.svg'));
     }
 
     signOut(message: string): void {

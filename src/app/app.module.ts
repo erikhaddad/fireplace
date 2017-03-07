@@ -3,10 +3,12 @@ import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {RouterModule} from '@angular/router';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {MaterialModule} from '@angular/material';
 import 'hammerjs';
 import {FlexLayoutModule} from "@angular/flex-layout";
+import {MomentModule} from 'angular2-moment';
 
 import {AuthModule} from '../auth/auth.module';
 import {FirebaseModule} from '../firebase/firebase.module';
@@ -26,9 +28,11 @@ import {FeedModule} from "../feed/feed.module";
         BrowserModule,
         FormsModule,
         HttpModule,
+        BrowserAnimationsModule,
         RouterModule.forRoot([], {useHash: false}),
         MaterialModule,
         FlexLayoutModule,
+        MomentModule,
 
         AuthModule,
         FirebaseModule,

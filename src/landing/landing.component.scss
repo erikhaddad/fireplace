@@ -2,38 +2,14 @@
   margin: 92px auto;
   max-width: 640px;
   padding: 128px 64px 96px;
-  background-color: rgba(0, 0, 0, 0.64);
+  background-color: rgba(0, 0, 0, 0.44);
   border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.54);
+  border: 1px solid rgba(0, 0, 0, 0.34);
 
   .avatar-hero {
     md-icon {
-      color: rgba(0,0,0,.54);
-
-      &.icon-lg {
-        height: 128px;
-        width: 128px;
-        font-size: 128px;
-      }
-
-      &.icon-sm {
-        height: 64px;
-        width: 64px;
-        font-size: 64px;
-        margin: 0 16px;
-        color: rgba(255,255,255,.86);
-      }
-    }
-
-    .spacer {
-      width: 64px;
-    }
-
-    .random-avatar {
-      .avatar-component {
-        height: 128px;
-        width: 128px;
-      }
+      height: 512px;
+      width: 512px;
     }
   }
   .curved-arrow {
@@ -41,8 +17,6 @@
     width: 64px;
   }
   .get-started {
-    margin-top: 86px;
-
     .get-started-btn {
       text-transform: uppercase;
       font-weight: 500;

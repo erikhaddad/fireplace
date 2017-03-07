@@ -1,37 +1,159 @@
-md-toolbar {
-  a {
-    text-decoration: none;
-    color: rgba(255, 255, 255, 1);
+.fp-toolbar {
+  background-color: #0288d1;
+  color: #FFF;
+
+  .mat-toolbar-row {
+    height: auto;
   }
 
-  .app-icon {
+  .fp-header {
+    .fp-titlebar {
+      max-width: 1024px;
+      width: 100%;
+      height: auto;
+      padding: 10px 20px;
+      margin: auto;
+      position: relative;
 
-  }
+      .fp-logo {
+        font-size: 34px;
+        line-height: 40px;
 
-  .app-title {
-    padding-left: 12px;
-  }
+        a {
+          color: white;
+          text-decoration: none;
+        }
 
-  .app-user {
-    .user-inactive {
+        .app-icon {
+          height: 28px;
+          width: 28px;
+          font-size: 28px;
+          line-height: 28px;
+        }
+        .app-name {
+          padding-left: 12px;
 
-    }
-    .user-active {
-      .user-name {
-        font-size: 14px;
-        font-weight: 400;
-        line-height: 36px;
+          letter-spacing: 1.2px;
+
+          text-rendering: optimizeLegibility;
+          -webkit-font-smoothing: antialiased;
+          display: inline-block;
+          font-family: 'Product Sans', Arial, sans-serif;
+        }
       }
-      .user-image {
-        border-radius: 50%;
-        height: 34px;
-        width: 34px;
-        margin: 0 12px;
-        border: 1px solid rgba(0,0,0,.1);
-      }
     }
-    .user-action {
 
+    .fp-searchcontainer {
+      
+    }
+    
+    /* Signed-in user */
+    .fp-user-info {
+      margin-left: 10px;
+      color: white;
+
+      .fp-signed-in-user-container {
+        /*display: none;*/
+        margin-left: 10px;
+
+        .fp-usernamelink {
+          padding: 0 10px 0 0;
+          border-radius: 19px 5px 5px 19px;
+          text-transform: none;
+          white-space: nowrap;
+
+          .fp-avatar {
+            height: 32px;
+            width: 32px;
+            display: inline-block;
+            background-size: 32px 32px;
+            border-radius: 32px;
+            border: 2px white solid;
+            margin-right: 10px;
+          }
+
+          .fp-username {
+            display: inline-block;
+            line-height: 38px;
+            vertical-align: top;
+            width: calc(100% - 46px);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: left;
+          }
+        }
+      }
     }
   }
 }
+
+@media screen and (max-width: 840px) {
+  .fp-toolbar.mat-toolbar {
+    min-height: 56px;
+    height: 56px;
+
+    .fp-header {
+      .fp-titlebar {
+        height: 56px;
+
+        .fp-logo {
+          margin: 0;
+          font-size: 24px;
+          line-height: 30px;
+
+          .app-icon {
+            top: 2.5px;
+            font-size: 23px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .fp-toolbar.mat-toolbar {
+    min-height: 56px;
+    height: 56px;
+
+    .fp-header {
+      .fp-titlebar {
+        height: 56px;
+
+        .fp-logo {
+          margin: 0;
+          font-size: 24px;
+          line-height: 30px;
+
+          .app-icon {
+            top: 2.5px;
+            font-size: 23px;
+          }
+        }
+      }
+
+      .fp-searchcontainer {
+        display: none !important;
+      }
+      
+      .fp-user-info {
+        .fp-signed-in-user-container {
+          .fp-usernamelink {
+            min-width: 40px;
+            padding: 0;
+            border-radius: 50%;
+
+            .fp-avatar {
+              margin: 0;
+            }
+            .fp-username {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

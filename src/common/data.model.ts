@@ -22,8 +22,15 @@ export class Comment implements IComment {
 export interface IFeed {
     $key?: string;
 }
-export interface Feed {
+export class Feed implements IFeed {
     value: boolean;
+}
+
+export interface ILike {
+    $key?: string;
+}
+export class Like implements ILike {
+    timestamp: number;
 }
 
 export interface IPerson {

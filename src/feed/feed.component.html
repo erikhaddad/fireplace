@@ -1,0 +1,48 @@
+<div class="feed-container">
+  <div class="feed" *ngIf="publicPosts && publicPosts.length > 0">
+    <div class="fp-posts">
+      <md-card class="post-card" *ngFor="let post of publicPosts">
+
+        <md-card-header class="post-header">
+          <div md-card-avatar
+               class="post-header-image"
+               [ngStyle]="{'background-image': 'url(' + post.author.profile_picture + ')'}"></div>
+
+          <md-card-title>
+            <a class="post-user-link" [href]="'/user/'+post.author.uid">{{ post.author.full_name }}</a>
+          </md-card-title>
+
+          <div fxFlex></div>
+
+          <div class="post-time-ago" mdTooltip="{{ post.timestamp }}">{{ post.timestamp | amTimeAgo:true }}</div>
+        </md-card-header>
+
+        <img md-card-image [src]="post.full_url" />
+
+        <md-card-content class="post-content">
+          <p>{{ post.text }}</p>
+
+          <md-chip-list *ngIf="tags">
+            <md-chip *ngFor="let tag of tags">{{ tag }}</md-chip>
+          </md-chip-list>
+        </md-card-content>
+
+        <md-card-actions class="post-actions">
+          <div fxLayout="row">
+            <button md-icon-button class="btn-like" [ngSwitch]="post.liked" (click)="post.liked = !post.liked">
+              <md-icon class="fp-liked" *ngSwitchCase="true">favorite</md-icon>
+              <md-icon class="fp-not-liked" *ngSwitchDefault>favorite_border</md-icon>
+            </button>
+            <md-input-container fxFlex class="comment-input">
+              <input mdInput placeholder="Comment..." floatPlaceholder="false" dividerColor="accent">
+            </md-input-container>
+          </div>
+        </md-card-actions>
+      </md-card>
+    </div>
+
+    <div class="fp-no-posts" *ngIf="!publicPosts || publicPosts.length == 0" fxLayout="column" fxLayoutAlign="center center">
+      <img class="placeholder" src="/assets/images/feed-placeholder.gif" />
+    </div>
+  </div>
+</div>

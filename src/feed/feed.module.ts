@@ -9,6 +9,7 @@ import {AuthGuard} from '../auth/auth.module';
 
 import {FeedComponent} from './feed.component';
 import {DataService} from "../common/data.service";
+import {MomentModule} from "angular2-moment";
 
 const routes: Routes = [
     {path: 'feed', component: FeedComponent, canActivate: [AuthGuard]}
@@ -23,6 +24,7 @@ const routes: Routes = [
         FormsModule,
         MaterialModule,
         FlexLayoutModule,
+        MomentModule,
         RouterModule.forChild(routes)
     ],
     providers: [

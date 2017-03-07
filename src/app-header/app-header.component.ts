@@ -1,12 +1,15 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 
 @Component({
     selector: 'app-header',
     styleUrls: ['app-header.component.scss'],
-    templateUrl: 'app-header.component.html'
+    templateUrl: 'app-header.component.html',
+    encapsulation: ViewEncapsulation.None
 })
 
 export class AppHeaderComponent {
+
+    showSearchInput: boolean = false;
 
     @Input() authenticated: boolean;
     @Input() userInfo: firebase.UserInfo;
@@ -14,6 +17,10 @@ export class AppHeaderComponent {
 
     constructor() {
 
+    }
+
+    toggleShowSearchInput(evt:Event) {
+        this.showSearchInput = !this.showSearchInput;
     }
 
     triggerSignOut(evt: Event): void {
