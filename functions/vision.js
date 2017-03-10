@@ -1,32 +1,36 @@
 const _ = require('lodash');
 const firebase = require('firebase');
 const functions = require('firebase-functions');
-const util = require('util');
+const admin = require('firebase-admin');
+//admin.initializeApp(functions.config().firebase);
 const vision = require('@google-cloud/vision')();
+const util = require('util');
 
 function annotatePhoto(evt) {
-    let env = functions.env;
-    let record = evt.data.val();
+    const object = evt.data; // The Storage object.
 
-    // Only run when file is first created
-    if (!record || evt.data.previous.val()) {
-        console.log('Not a new file, skipping.');
+    const fileBucket = object.bucket; // The Storage bucket that contains the file.
+    const filePath = object.name; // File path in the bucket.
+    const contentType = object.contentType; // File content type.
+    const resourceState = object.resourceState; // The resourceState is 'exists' or 'not_exists' (for file/folder deletions).
+
+    // Exit if this is triggered on a file that is not an image.
+    if (!contentType.startsWith('image/')) {
+        console.log('This is not an image.');
         return;
     }
 
-    // Skip directories
-    if (record.type === 1) {
-        console.log(util.format('Not a file, skipping. type=%s', record.type));
+    // Get the file name.
+    const fileName = filePath.split('/').pop();
+    // Exit if the image is already a thumbnail.
+    if (fileName.startsWith('thumb_')) {
+        console.log('Already a Thumbnail.');
         return;
     }
 
-    // DEBUG: logging the execution time of this function
-    evt.data.ref.update({_functionsEnd: firebase.database.ServerValue.TIMESTAMP});
-
-    // Only run if this is a photo
-    let data = record.data || {};
-    if (!_.startsWith(data.contentType, 'image/')) {
-        console.log(util.format('Not an image, skipping. contentType=%s', data.contentType));
+    // Exit if this is a move or deletion event.
+    if (resourceState === 'not_exists') {
+        console.log('This is a deletion event.');
         return;
     }
 
@@ -34,10 +38,10 @@ function annotatePhoto(evt) {
     let req = {
         image: {
             source: {
-                gcsImageUri: util.format('gs://%s/%s', env.firebase.storageBucket, data.path)
+                gcsImageUri: util.format('gs://%s/%s', fileBucket, filePath)
             }
         },
-        features: [{type: 'LABEL_DETECTION'}]
+        features: [{ type: 'LABEL_DETECTION' }]
     };
 
     // Make the Cloud Vision request
@@ -54,7 +58,7 @@ function annotatePhoto(evt) {
             // Save the annotations into the file in the database
             let labelAnnotations = _.get(annotations, '[0].labelAnnotations');
             if (labelAnnotations) {
-                return evt.data.ref.child('tags/'+event.params.pushId+'/').set(labelAnnotations);
+                return admin.database().ref('tags/').push(labelAnnotations);
             }
         });
 }

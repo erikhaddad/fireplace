@@ -9,7 +9,7 @@
     "exif": "^0.6.0",
     "firebase": "^3.7",
     "firebase-admin": "^4.1.1",
-    "firebase-functions": "https://storage.googleapis.com/firebase-preview-drop/node/firebase-functions/firebase-functions-preview.latest.tar.gz",
+    "firebase-functions": "^0.5.1",
     "lodash": "^4.17.4"
   }
 }
