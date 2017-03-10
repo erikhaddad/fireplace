@@ -4,6 +4,7 @@ const storage = require('./storage');
 const vision = require('./vision');
 const uppercase = require('./uppercase');
 const thumbnail = require('./thumbnail');
+const metadata = require('./metadata');
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/preview/functions/write-firebase-functions
@@ -13,20 +14,25 @@ const thumbnail = require('./thumbnail');
 // })
 
 // Run all uploaded photos through Cloud Vision for label detection
-let onPhotoUpload = functions.database.ref(
+let onPhotoRefUpload = functions.database.ref(
     '/posts/{postId}'
 ).onWrite(vision.annotatePhoto);
 
 // Delete files when their database entry is removed
-let onFileDeleted = functions.database.ref(
+let onFileRefDeleted = functions.database.ref(
     '/people/{userId}/{postId}'
 ).onWrite(storage.deleteFile);
 
-let onPhotoChange = functions.storage.object()
+let onPhotoStorageChange = functions.storage.object()
     .onChange(thumbnail.generateThumbnail);
 
+let onPhotoStorageUpload = functions.storage.object()
+    .onChange(metadata.getPhotoMetadata);
+
+
 module.exports = {
-    onPhotoUpload: onPhotoUpload,
-    onFileDeleted: onFileDeleted,
-    onPhotoChange: onPhotoChange
+    onPhotoRefUpload: onPhotoRefUpload,
+    onFileRefDeleted: onFileRefDeleted,
+    onPhotoStorageChange: onPhotoStorageChange,
+    onPhotoStorageUpload: onPhotoStorageUpload
 };

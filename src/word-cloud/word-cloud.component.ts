@@ -1,13 +1,24 @@
-import { Component, Input, ElementRef, DoCheck, KeyValueDiffers } from '@angular/core';
-import { WordCloudConfig } from '../../../models/charts/word-cloud-config';
+import {Component, Input, ElementRef, DoCheck, KeyValueDiffers} from '@angular/core';
 import * as D3 from 'd3';
 
 declare let d3: any;
 
+export interface WordCloudSettings {
+    minFontSize: number; // default 18
+    maxFontSize: number; // default 96
+    fontFace: string; // default Roboto
+    fontWeight: string; // default normal
+    spiral: string; // default rectangular
+}
+export interface WordCloudConfig {
+    dataset: string[];
+    settings: WordCloudSettings;
+}
+
 @Component({
-    selector   : 'word-cloud',
+    selector: 'word-cloud-root',
     templateUrl: './word-cloud.component.html',
-    styleUrls  : ['./word-cloud.component.scss']
+    styleUrls: ['./word-cloud.component.scss']
 })
 export class WordCloudComponent implements DoCheck {
 
@@ -21,13 +32,13 @@ export class WordCloudComponent implements DoCheck {
         bottom: number,
         left: number
     };
-    private _width: number;      // Component width
-    private _height: number;     // Component height
-    private _htmlElement: HTMLElement; // Host HTMLElement
-    private _minCount: number;   // Minimum word count
-    private _maxCount: number;   // Maximum word count
-    private _fontScale;          // D3 scale for font size
-    private _fillScale;          // D3 scale for text color
+    private _width: number;             // Component width
+    private _height: number;            // Component height
+    private _htmlElement: HTMLElement;  // Host HTMLElement
+    private _minCount: number;          // Minimum word count
+    private _maxCount: number;          // Maximum word count
+    private _fontScale;                 // D3 scale for font size
+    private _fillScale;                 // D3 scale for text color
     private _objDiffer;
 
     constructor(private _element: ElementRef, private _keyValueDiffers: KeyValueDiffers) {
@@ -50,10 +61,10 @@ export class WordCloudComponent implements DoCheck {
 
     private _setup() {
         this._margin = {
-            top   : 10,
-            right : 10,
+            top: 10,
+            right: 10,
             bottom: 10,
-            left  : 10
+            left: 10
         };
         this._width = ((this._htmlElement.parentElement.clientWidth == 0)
                 ? 300

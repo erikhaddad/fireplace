@@ -18,6 +18,7 @@ import {SignInModule} from '../sign-in/sign-in.module';
 import {AppComponent} from './app.component';
 import {AppHeaderComponent} from '../app-header/app-header.component';
 import {FeedModule} from "../feed/feed.module";
+import {WordCloudModule} from "../word-cloud/word-cloud.module";
 
 @NgModule({
     declarations: [
@@ -39,7 +40,8 @@ import {FeedModule} from "../feed/feed.module";
 
         LandingModule,
         SignInModule,
-        FeedModule
+        FeedModule,
+        WordCloudModule
     ],
     providers: [],
     bootstrap: [AppComponent]

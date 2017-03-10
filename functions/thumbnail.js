@@ -12,7 +12,7 @@ function generateThumbnail(evt) {
     const fileBucket = object.bucket; // The Storage bucket that contains the file.
     const filePath = object.name; // File path in the bucket.
     const contentType = object.contentType; // File content type.
-    const resourceState = object.resourceState; // The resourceState is 'exists' or 'not_exits' (for file/folder deletions).
+    const resourceState = object.resourceState; // The resourceState is 'exists' or 'not_exists' (for file/folder deletions).
 
     // Exit if this is triggered on a file that is not an image.
     if (!contentType.startsWith('image/')) {
@@ -40,7 +40,7 @@ function generateThumbnail(evt) {
     return bucket.file(filePath).download({
         destination: tempFilePath
     }).then(() => {
-        console.log('Image downloaded locally to', tempFilePath);
+        console.log('thumbnail.js: Image downloaded locally to', tempFilePath);
         // Generate a thumbnail using ImageMagick.
         return exec(`convert "${tempFilePath}" -thumbnail '200x200>' "${tempFilePath}"`).then(() => {
             console.log('Thumbnail created at', tempFilePath);
