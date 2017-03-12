@@ -27,6 +27,19 @@
     color: rgba(0,0,0,.54);
     font-size: 13px;
   }
+
+  .post-image {
+    flex: 1;
+    background-size: cover;
+    background-position: 50% 50%;
+    box-sizing: border-box;
+    padding-top: 25%;
+    position: relative;
+    padding-bottom: 25%;
+    min-height: 296px;
+    cursor: pointer;
+  }
+
   .post-actions {
     .btn-like {
       color: #FF5252;

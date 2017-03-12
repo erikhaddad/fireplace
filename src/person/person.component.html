@@ -27,7 +27,9 @@
         <div class="fp-user-detail-container">
           <div class="fp-user-detail"><span class="fp-user-nbposts">4</span> posts</div>
           <div class="fp-user-detail"><span class="fp-user-nbfollowers">1</span> followers</div>
-          <div class="fp-user-detail fp-user-nbfollowing-container" (click)="toggleShowFollowers($event)"><span class="fp-user-nbfollowing">1</span> following</div>
+          <div class="fp-user-detail fp-user-nbfollowing-container"
+               [ngClass]="{'is-active': showFollowers}"
+               (click)="toggleShowFollowers($event)"><span class="fp-user-nbfollowing">1</span> following</div>
         </div>
       </div>
     </div>

@@ -14,10 +14,10 @@
 
           <div fxFlex></div>
 
-          <div class="post-time-ago" mdTooltip="{{ post.timestamp }}">{{ post.timestamp | amTimeAgo:true }}</div>
+          <div class="post-time-ago" mdTooltip="{{ post.timestamp | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a' }}">{{ post.timestamp | amTimeAgo:true }} ago</div>
         </md-card-header>
 
-        <img md-card-image [src]="post.full_url" />
+        <div md-card-image class="post-image" [ngStyle]="{'background-image': 'url(' + post.full_url + ')'}"></div>
 
         <md-card-content class="post-content">
           <p>{{ post.text }}</p>
