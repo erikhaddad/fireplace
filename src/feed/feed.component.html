@@ -1,5 +1,5 @@
-<div class="feed-container">
-  <div class="feed" *ngIf="publicPosts && publicPosts.length > 0">
+<div class="app-content-container">
+  <div class="app-content" *ngIf="publicPosts && publicPosts.length > 0">
     <div class="fp-posts">
       <md-card class="post-card" *ngFor="let post of publicPosts">
 
@@ -9,7 +9,7 @@
                [ngStyle]="{'background-image': 'url(' + post.author.profile_picture + ')'}"></div>
 
           <md-card-title>
-            <a class="post-user-link" [href]="'/user/'+post.author.uid">{{ post.author.full_name }}</a>
+            <a class="post-user-link" [href]="'/person/'+post.author.uid">{{ post.author.full_name }}</a>
           </md-card-title>
 
           <div fxFlex></div>
@@ -23,8 +23,11 @@
           <p>{{ post.text }}</p>
 
           <md-chip-list *ngIf="tags">
-            <md-chip *ngFor="let tag of tags">{{ tag }}</md-chip>
+            <md-chip *ngFor="let tag of tags[0]">{{ tag.description }}</md-chip>
           </md-chip-list>
+
+          <p class="meta-icon" style="text-align: right"><md-icon>photo_camera</md-icon>{{ cameras[0].make }} {{ cameras[0].model }}</p>
+          <p class="meta-icon" style="text-align: right"><md-icon>location_on</md-icon>{{ locations[0][0].formatted_address }}</p>
         </md-card-content>
 
         <md-card-actions class="post-actions">

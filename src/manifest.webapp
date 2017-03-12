@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "name": "Fireplace",
+  "launch_path": "/index.html",
+  "description": "Share your pictures",
+  "icons": {
+    "128": "/images/touch/touch-icon-128x128.png"
+  },
+  "developer": {
+    "name": "Erik Haddad",
+    "url": ""
+  },
+  "installs_allowed_from": [
+    "*"
+  ],
+  "default_locale": "en",
+  "permissions": {
+  },
+  "locales": {
+    "en": {
+      "name": "Fireplace",
+      "description": "Share your pictures"
+    }
+  },
+  "gcm_sender_id": "1085491840581"
+}

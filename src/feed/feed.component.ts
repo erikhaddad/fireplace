@@ -17,6 +17,7 @@ export class FeedComponent implements OnInit, OnDestroy {
     people: IPerson[];
     tags: any[];
     locations: any[];
+    cameras: any[];
 
     constructor(dataService: DataService) {
         dataService.publicPosts.subscribe(queriedItems => {
@@ -27,7 +28,7 @@ export class FeedComponent implements OnInit, OnDestroy {
         dataService.userPosts.subscribe(queriedItems => {
             this.userPosts = queriedItems;
 
-            console.log('user posts', this.userPosts);
+            console.log('person posts', this.userPosts);
         });
         dataService.comments.subscribe(queriedItems => {
             this.comments = queriedItems;
@@ -54,6 +55,11 @@ export class FeedComponent implements OnInit, OnDestroy {
             this.locations = queriedItems;
 
             console.log('locations', this.locations);
+        });
+        dataService.cameras.subscribe(queriedItems => {
+            this.cameras = queriedItems;
+
+            console.log('cameras', this.cameras);
         });
     }
 

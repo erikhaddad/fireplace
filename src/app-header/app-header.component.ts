@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
+import {AuthService} from "../auth/auth.service";
 
 @Component({
     selector: 'app-header',
@@ -12,6 +13,7 @@ export class AppHeaderComponent {
     showSearchInput: boolean = false;
 
     @Input() authenticated: boolean;
+    @Input() userId: string;
     @Input() userInfo: firebase.UserInfo;
     @Output() signOut = new EventEmitter(false);
 

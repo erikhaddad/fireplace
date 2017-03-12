@@ -19,6 +19,7 @@ import {AppComponent} from './app.component';
 import {AppHeaderComponent} from '../app-header/app-header.component';
 import {FeedModule} from "../feed/feed.module";
 import {WordCloudModule} from "../word-cloud/word-cloud.module";
+import {PersonModule} from "../person/person.module";
 
 @NgModule({
     declarations: [
@@ -41,6 +42,7 @@ import {WordCloudModule} from "../word-cloud/word-cloud.module";
         LandingModule,
         SignInModule,
         FeedModule,
+        PersonModule,
         WordCloudModule
     ],
     providers: [],

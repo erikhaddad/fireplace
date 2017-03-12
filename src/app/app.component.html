@@ -1,5 +1,6 @@
 <div class="app-component-wrapper" fxLayout="column">
   <app-header [authenticated]="auth.authenticated"
+              [userId]="auth.id"
               [userInfo]="auth.userInfo"
               (signOut)="signOut($event)"></app-header>
 

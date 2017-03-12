@@ -1,14 +1,3 @@
-.feed-container {
-  overflow: auto;
-  height: calc(100vh - 128px);
-
-  .feed {
-    margin: 24px auto;
-    max-width: 646px;
-  }
-}
-
-
 .post-card {
   margin: 6px 0 12px;
 
@@ -44,6 +33,15 @@
     }
     .comment-input {
       width: 100%;
+    }
+  }
+
+  .meta-info {
+    text-align: right;
+    line-height: 40px;
+
+    md-icon {
+      color: rgba(0,0,0,.54);
     }
   }
 }

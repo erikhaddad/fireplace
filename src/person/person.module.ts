@@ -7,16 +7,16 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 
 import {AuthGuard} from '../auth/auth.module';
 
-import {UserComponent} from './user.component';
+import {PersonComponent} from './person.component';
 import {DataService} from "../common/data.service";
 
 const routes: Routes = [
-    {path: 'user/:userId', component: UserComponent, canActivate: [AuthGuard]}
+    {path: 'person/:personId', component: PersonComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
     declarations: [
-        UserComponent
+        PersonComponent
     ],
     imports: [
         CommonModule,
@@ -30,7 +30,7 @@ const routes: Routes = [
     ]
 })
 
-export class UserModule {
+export class PersonModule {
 }
 
 export {DataService};

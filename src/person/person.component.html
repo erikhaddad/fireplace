@@ -1,0 +1,67 @@
+<div class="app-content-container">
+  <div id="page-user-info" class="app-content-wide" *ngIf="currentPerson">
+
+    <div class="fp-user-container mat-elevation-z2">
+      <div class="fp-user-avatar"
+           [ngStyle]="{ 'background-image': 'url(' + currentPerson.profile_picture + ')' }"></div>
+
+      <div class="fp-name-follow-container mdl-cell mdl-cell--5-col">
+        <div class="fp-user-username">{{ currentPerson.full_name }}</div>
+
+        <div class="fp-signed-in-only" *ngIf="userId == authService.id">
+          <md-slide-toggle
+              [(ngModel)]="notificationsEnabled"
+              [color]="'primary'">
+            Notifications {{ notificationsEnabled ? 'Enabled' : 'Disabled' }}
+          </md-slide-toggle>
+        </div>
+
+        <div class="fp-signed-in-only" *ngIf="userId != authService.id">
+          <md-slide-toggle
+              [(ngModel)]="followingEnabled"
+              [color]="'primary'">
+            Following
+          </md-slide-toggle>
+        </div>
+
+        <div class="fp-user-detail-container">
+          <div class="fp-user-detail"><span class="fp-user-nbposts">4</span> posts</div>
+          <div class="fp-user-detail"><span class="fp-user-nbfollowers">1</span> followers</div>
+          <div class="fp-user-detail fp-user-nbfollowing-container" (click)="toggleShowFollowers($event)"><span class="fp-user-nbfollowing">1</span> following</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fp-user-following" *ngIf="showFollowers">
+      <a md-button class="fp-usernamelink" href="/person/SfWcx3sA58h573Gj9udt4A2tSZd2">
+        <div class="fp-avatar"
+             style="background-image: url('https://lh6.googleusercontent.com/-3vhVlg7Ydss/AAAAAAAAAAI/AAAAAAACKxI/aLJiPA6cBso/photo.jpg')"></div>
+        <div class="fp-username mdl-color-text--black">Erik Haddad</div>
+      </a>
+
+      <button md-fab class="fp-close-following" (click)="toggleShowFollowers($event)">
+        <md-icon>expand_less</md-icon>
+      </button>
+    </div>
+
+    <div class="fp-image-container">
+      <md-grid-list cols="3" rowHeight="200px" gutterSize="12px">
+        <md-grid-tile
+            *ngFor="let post of publicPosts"
+            [colspan]="1"
+            [rowspan]="1">
+
+          <a href="/post/-KeuECpCSySRuXpoBIii" class="fp-image">
+            <div class="fp-overlay">
+              <md-icon>favorite</md-icon><span class="likes">0</span>
+              <md-icon>mode_comment</md-icon><span class="comments">0</span>
+              <div class="fp-pic-text">{{ post.text }}</div>
+            </div>
+            <div class="mdl-card"
+                 [ngStyle]="{ 'background-image': 'url(' + post.full_url + ')' }"></div>
+          </a>
+        </md-grid-tile>
+      </md-grid-list>
+    </div>
+  </div>
+</div>

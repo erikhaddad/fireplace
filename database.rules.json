@@ -55,6 +55,16 @@
         }
       }
     },
+    "cameras": {
+      ".read": true,
+      "$postId": {
+        ".write": "!newData.exists() && auth.uid === root.child('posts').child($postId).child('author').child('uid').val() && !newData.parent().parent().child('posts').child($postId).exists()", // Allow deletes from the post owner
+        ".validate": "root.child('posts').child($postId).exists()", // Check that the post exists
+        "$locationId": {
+          ".write": "!data.exists() || data.exists() && auth.uid === data.child('author').child('uid').val()"  // Can write new comments and edit/delete particular comment if you are the author.
+        }
+      }
+    },
     "likes": {
       ".read": true,
       "$postId": {

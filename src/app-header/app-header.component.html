@@ -34,7 +34,7 @@
         </a>
 
         <div class="fp-signed-in-user-container" *ngSwitchCase="true">
-          <a md-button class="fp-usernamelink">
+          <a md-button class="fp-usernamelink" [href]="'/person/'+userId">
             <div class="fp-avatar" [ngStyle]="{'background-image': 'url(' + userInfo.photoURL + ')'}"></div>
             <div class="fp-username">{{ userInfo.displayName }}</div>
           </a>

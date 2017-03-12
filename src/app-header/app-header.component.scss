@@ -47,7 +47,7 @@
       
     }
     
-    /* Signed-in user */
+    /* Signed-in person */
     .fp-user-info {
       margin-left: 10px;
       color: white;
@@ -92,6 +92,7 @@
   .fp-toolbar.mat-toolbar {
     min-height: 56px;
     height: 56px;
+    padding: 0;
 
     .fp-header {
       .fp-titlebar {
@@ -116,6 +117,7 @@
   .fp-toolbar.mat-toolbar {
     min-height: 56px;
     height: 56px;
+    padding: 0;
 
     .fp-header {
       .fp-titlebar {

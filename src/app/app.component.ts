@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ViewEncapsulation} from '@angular/core';
 import {CanActivate, Router} from '@angular/router';
 import {MdSnackBar, MdIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -7,7 +7,8 @@ import {AuthService} from '../auth/auth.service';
 @Component({
     selector: 'app',
     styleUrls: ['./app.component.scss'],
-    templateUrl: './app.component.html'
+    templateUrl: './app.component.html',
+    encapsulation: ViewEncapsulation.None
 })
 
 export class AppComponent {

@@ -4,7 +4,7 @@ import 'rxjs/add/operator/switchMap';
 import {Injectable} from '@angular/core';
 import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
 import {AuthService} from '../auth/auth.service';
-import {IPost, Post, IComment, IPerson, ILike} from './data.model';
+import {IPost, Post, IComment, IPerson, ILike, Person} from './data.model';
 
 @Injectable()
 export class DataService {
@@ -16,6 +16,7 @@ export class DataService {
 
     private tagsPath;
     private locationsPath;
+    private camerasPath;
 
     constructor(private af: AngularFire, private auth: AuthService) {
         this.publicPostsPath = `/posts`;
@@ -26,6 +27,7 @@ export class DataService {
 
         this.tagsPath = `/tags/`;
         this.locationsPath = `/locations/`;
+        this.camerasPath = `/cameras/`;
     }
 
 
@@ -62,7 +64,11 @@ export class DataService {
         return this.af.database.list(this.locationsPath);
     }
 
-    /** PUBLIC EVENTS **/
+    get cameras(): FirebaseListObservable<any[]> {
+        return this.af.database.list(this.camerasPath);
+    }
+
+    /** PUBLIC POST **/
     createPublicPost(post:Post): firebase.Promise<any> {
         return this.af.database.list(this.publicPostsPath).push(post);
     }
@@ -76,7 +82,7 @@ export class DataService {
         return this.af.database.list(this.publicPostsPath).update(post.$key, changes);
     }
 
-    /** USER-CENTRIC EVENTS **/
+    /** USER POST  **/
     createUserPost(post:Post): firebase.Promise<any> {
         return this.af.database.list(this.userPostsPath).push(post);
     }
@@ -89,4 +95,19 @@ export class DataService {
     updateUserPost(post: IPost, changes: any): firebase.Promise<any> {
         return this.af.database.list(this.userPostsPath).update(post.$key, changes);
     }
+
+    /** PERSON **/
+    createPerson(person:Person): firebase.Promise<any> {
+        return this.af.database.list(this.peoplePath).push(person);
+    }
+    getPerson(id: string): FirebaseObjectObservable<any> {
+        return this.af.database.object(this.peoplePath+'/'+id);
+    }
+    removePerson(person: IPerson): firebase.Promise<any> {
+        return this.af.database.list(this.peoplePath).remove(person.$key);
+    }
+    updatePerson(person: IPerson, changes: any): firebase.Promise<any> {
+        return this.af.database.list(this.peoplePath).update(person.$key, changes);
+    }
+
 }
