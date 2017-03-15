@@ -57,9 +57,13 @@
       </md-menu>
 
 
-      <button md-fab class="fp-signed-in-only" id="add">
+      <button md-fab class="fp-signed-in-only" id="add" (click)="triggerInputFileClick($event)">
         <md-icon>file_upload</md-icon>
       </button>
+      <input id="new-post-input" type="file"
+             ([ngModel])="agentImageFile" name="inputFile" accept="image/*"
+             (change)="onInputFileChange($event)" />
+
     </div>
   </header>
 </md-toolbar>

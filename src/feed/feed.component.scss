@@ -10,7 +10,7 @@
   }
   .post-user-link {
     display: inline-block;
-    line-height: 38px;
+    /*line-height: 38px;*/
     vertical-align: top;
     text-align: left;
     text-decoration: none;
@@ -18,6 +18,25 @@
     
     &:hover {
       text-decoration: underline;
+    }
+  }
+  .mat-card-subtitle {
+
+  }
+  .post-location {
+    margin: 0;
+    padding: 0;
+
+    md-icon {
+      color: rgba(0,0,0,.32);
+      height: 16px;
+      width: 16px;
+      font-size: 16px;
+    }
+    span {
+      display: inline-block;
+      padding-left: 2px;
+      color: rgba(0,0,0,.54);
     }
   }
   .post-time-ago {
@@ -52,8 +71,14 @@
   .meta-info {
     text-align: right;
     line-height: 40px;
+    margin: 0;
+    padding: 0;
 
     md-icon {
+      color: rgba(0,0,0,.32);
+    }
+    span {
+      display: inline-block;
       color: rgba(0,0,0,.54);
     }
   }

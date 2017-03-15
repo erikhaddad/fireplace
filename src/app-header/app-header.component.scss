@@ -92,6 +92,10 @@
       bottom: -20px;
       z-index: 998;
     }
+    #new-post-input {
+      width: 0;
+      visibility: hidden;
+    }
   }
 }
 

@@ -54,6 +54,44 @@ export class Person implements IPerson {
     constructor() {}
 }
 
+export interface ITag {
+    $key?: string;
+
+    description: string;
+    mid: string;
+    score: number;
+}
+export interface IAddressComponent {
+    long_name: string;
+    short_name: string;
+    types: string[];
+}
+export interface ICoordinate {
+    lat: number;
+    long: number;
+}
+export interface IGeometry {
+    bounds: {northeast: ICoordinate, southwest: ICoordinate};
+    location: ICoordinate;
+    location_type: string;
+    viewport: {northeast: ICoordinate, southwest: ICoordinate};
+}
+export interface ILocation {
+    $key?: string;
+
+    address_components: IAddressComponent[];
+    formatted_address: string;
+    geometry: IGeometry[];
+    place_id: string;
+    types: string[];
+}
+export interface ICamera {
+    $key?: string;
+
+    make: string;
+    model: string;
+}
+
 export interface IPost {
     $key?: string;
 
@@ -63,7 +101,7 @@ export interface IPost {
     text: string;
     thumb_storage_uri: string;
     thumb_url: string;
-    timestamp: number;
+    timestamp: number|object;
 }
 export class Post implements IPost {
     author: IAuthor;
@@ -72,7 +110,21 @@ export class Post implements IPost {
     text: string;
     thumb_storage_uri: string;
     thumb_url: string;
-    timestamp: number;
+    timestamp: number|object;
 
     constructor() {}
 }
+
+export class CombinedPost {
+    author: IAuthor;
+
+    camera: ICamera;
+    likes: number;
+    comments: IComment[];
+    tags: ITag[];
+    location: ILocation;
+}
+
+
+
+

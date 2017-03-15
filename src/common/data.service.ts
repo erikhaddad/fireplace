@@ -4,19 +4,19 @@ import 'rxjs/add/operator/switchMap';
 import {Injectable} from '@angular/core';
 import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
 import {AuthService} from '../auth/auth.service';
-import {IPost, Post, IComment, IPerson, ILike, Person} from './data.model';
+import {IPost, Post, IComment, IPerson, ILike, Person, ITag, ILocation, ICamera} from './data.model';
 
 @Injectable()
 export class DataService {
-    private publicPostsPath;
-    private userPostsPath;
-    private commentsPath;
-    private likesPath;
-    private peoplePath;
+    private publicPostsPath: string;
+    private userPostsPath: string;
+    private commentsPath: string;
+    private likesPath: string;
+    private peoplePath: string;
 
-    private tagsPath;
-    private locationsPath;
-    private camerasPath;
+    private tagsPath: string;
+    private locationsPath: string;
+    private camerasPath: string;
 
     constructor(private af: AngularFire, private auth: AuthService) {
         this.publicPostsPath = `/posts`;
@@ -56,15 +56,15 @@ export class DataService {
         return this.af.database.list(this.peoplePath);
     }
 
-    get tags(): FirebaseListObservable<any[]> {
+    get tags(): FirebaseListObservable<ITag[]> {
         return this.af.database.list(this.tagsPath);
     }
 
-    get locations(): FirebaseListObservable<any[]> {
+    get locations(): FirebaseListObservable<ILocation[]> {
         return this.af.database.list(this.locationsPath);
     }
 
-    get cameras(): FirebaseListObservable<any[]> {
+    get cameras(): FirebaseListObservable<ICamera[]> {
         return this.af.database.list(this.camerasPath);
     }
 

@@ -11,6 +11,12 @@
           <md-card-title>
             <a class="post-user-link" [href]="'/person/'+post.author.uid">{{ post.author.full_name }}</a>
           </md-card-title>
+          <md-card-subtitle>
+            <p class="post-location" fxLayout="row" fxLayoutAlign="start center">
+              <md-icon>location_on</md-icon>
+              <span>{{ locations[0][0].formatted_address }}</span>
+            </p>
+          </md-card-subtitle>
 
           <div fxFlex></div>
 
@@ -20,14 +26,20 @@
         <div md-card-image class="post-image" [ngStyle]="{'background-image': 'url(' + post.full_url + ')'}"></div>
 
         <md-card-content class="post-content">
-          <p>{{ post.text }}</p>
+          <p *ngIf="false">{{ post.text }}</p>
 
           <md-chip-list *ngIf="tags">
             <md-chip *ngFor="let tag of tags[0]">{{ tag.description }}</md-chip>
           </md-chip-list>
 
-          <p class="meta-icon" style="text-align: right"><md-icon>photo_camera</md-icon>{{ cameras[0].make }} {{ cameras[0].model }}</p>
-          <p class="meta-icon" style="text-align: right"><md-icon>location_on</md-icon>{{ locations[0][0].formatted_address }}</p>
+          <p class="meta-info" fxLayout="row" fxLayoutAlign="start center">
+            <md-icon>photo_camera</md-icon>
+            <span>{{ cameras[0].make }} {{ cameras[0].model }}</span>
+          </p>
+          <p class="meta-info" fxLayout="row" fxLayoutAlign="start center" *ngIf="false">
+            <md-icon>location_on</md-icon>
+            <span>{{ locations[0][0].formatted_address }}</span>
+          </p>
         </md-card-content>
 
         <md-card-actions class="post-actions">
