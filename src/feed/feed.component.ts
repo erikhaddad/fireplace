@@ -2,7 +2,7 @@ import {Component, OnInit, ViewEncapsulation, OnDestroy} from '@angular/core';
 import {DataService} from "../common/data.service";
 import {IPost, IComment, IPerson, ILike, ITag, ICamera, ILocation, CompositePost, Post} from "../common/data.model";
 
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {FirebaseListObservable} from "angularfire2";
 
 import * as _ from "lodash";
@@ -16,6 +16,11 @@ import {AuthService} from "../auth/auth.service";
 })
 export class FeedComponent implements OnInit, OnDestroy {
 
+    // Posts shown in the feed
+    private compositePosts: CompositePost[];
+    private subscribePosts:Subscription;
+
+    // Realtime Database observables
     private publicPosts$: FirebaseListObservable<IPost[]>;
     private userPosts$: FirebaseListObservable<IPost[]>;
     private comments$: FirebaseListObservable<IComment[]>;
@@ -24,68 +29,8 @@ export class FeedComponent implements OnInit, OnDestroy {
     private tags$: FirebaseListObservable<ITag[]>;
     private locations$: FirebaseListObservable<ILocation[]>;
     private cameras$: FirebaseListObservable<ICamera[]>;
-    
-    private publicPosts: IPost[] = [];
-    private userPosts: IPost[];
-    private comments: IComment[];
-    private likes: ILike[];
-    private people: IPerson[];
-    private tags: ITag[];
-    private locations: ILocation[];
-    private cameras: ICamera[];
-
-    private compositePosts: CompositePost[];
 
     constructor(private dataService: DataService, private authService: AuthService) {
-
-        /*
-        this.dataService.publicPosts.subscribe(queriedItems => {
-            this.publicPosts = queriedItems.reverse();
-
-            console.log('public posts', this.publicPosts);
-
-            this.publicPosts.map(post => {
-                // do something
-            });
-        });
-        this.dataService.userPosts.subscribe(queriedItems => {
-            this.userPosts = queriedItems;
-
-            console.log('person posts', this.userPosts);
-        });
-        this.dataService.comments.subscribe(queriedItems => {
-            this.comments = queriedItems;
-
-            console.log('comments', this.comments);
-        });
-        this.dataService.likes.subscribe(queriedItems => {
-            this.likes = queriedItems;
-
-            console.log('likes', this.likes);
-        });
-        this.dataService.people.subscribe(queriedItems => {
-            this.people = queriedItems;
-
-            console.log('people', this.people);
-        });
-
-        this.dataService.tags.subscribe(queriedItems => {
-            this.tags = queriedItems;
-
-            console.log('tags', this.tags);
-        });
-        this.dataService.locations.subscribe(queriedItems => {
-            this.locations = queriedItems;
-
-            console.log('locations', this.locations);
-        });
-        this.dataService.cameras.subscribe(queriedItems => {
-            this.cameras = queriedItems;
-
-            console.log('cameras', this.cameras);
-        });
-        */
-
         this.publicPosts$ = this.dataService.publicPosts;
         this.userPosts$ = this.dataService.userPosts;
         this.comments$ = this.dataService.comments;
@@ -105,33 +50,11 @@ export class FeedComponent implements OnInit, OnDestroy {
 
     togglePostLike(post:CompositePost, evt:Event) {
         post.liked = !post.liked;
+
+        this.dataService.updatePostLikes(post.id, this.authService.id, post.liked);
     }
 
     combineData() {
-        /*
-        //timerOne emits first value at 1s, then once every 4s
-        const timerOne = Observable.timer(1000, 4000);
-        //timerTwo emits first value at 2s, then once every 4s
-        const timerTwo = Observable.timer(2000, 4000);
-        //timerThree emits first value at 3s, then once every 4s
-        const timerThree = Observable.timer(3000, 4000);
-
-        const combinedProjects = Observable
-            .combineLatest(
-                timerOne,
-                timerTwo,
-                timerThree,
-                (one, two, three) => {
-                    return `Timer One (Proj) Latest: ${one}, 
-                              Timer Two (Proj) Latest: ${two}, 
-                              Timer Three (Proj) Latest: ${three}`
-                }
-            );
-
-        //log values
-        const subscribeProjects = combinedProjects.subscribe(latestValuesProject => console.log(latestValuesProject));
-        */
-
         const combinedPosts = Observable
             .combineLatest(
                 this.publicPosts$,
@@ -147,7 +70,7 @@ export class FeedComponent implements OnInit, OnDestroy {
                     _.each(publicPosts, post => {
                         let postId:string = post.$key;
 
-                        let showDebug = postId == '-KfFC5qX2Eiex_oGYfCP';
+                        let showDebug = false;
 
                         let newCompositePost = new CompositePost();
                         newCompositePost.id = postId;
@@ -167,7 +90,7 @@ export class FeedComponent implements OnInit, OnDestroy {
                         let postLikes = _.find(likes, like => like.$key == postId);
                         if (!!postLikes) {
                             let keys = Object.keys(postLikes);
-                            //isPostLiked = _.indexOf(this.compositePosts, this.authService.id);
+                            isPostLiked = _.indexOf(keys, this.authService.id) > -1;
                             postLikeCount = keys.length;
                         }
                         newCompositePost.liked = isPostLiked;
@@ -199,9 +122,6 @@ export class FeedComponent implements OnInit, OnDestroy {
                         }
 
                         /** RESULT **/
-                        console.log('new composite post', newCompositePost);
-                        //this.compositePosts[postId] = newCompositePost;
-
                         // Find item index using indexOf+find
                         let index = _.indexOf(this.compositePosts, _.find(this.compositePosts, {id: postId}));
 
@@ -214,14 +134,13 @@ export class FeedComponent implements OnInit, OnDestroy {
                     });
 
                     this.compositePosts = _.orderBy(this.compositePosts, ['timestamp', 'id'], ['desc', 'desc']);
-                    console.log('compositePosts', this.compositePosts);
 
                     return this.compositePosts;
                 }
             );
 
         //log values
-        const subscribePosts = combinedPosts.subscribe(latestValuesProject => console.log(latestValuesProject));
+        this.subscribePosts = combinedPosts.subscribe(latestValuesProject => console.log(latestValuesProject));
     }
 
 

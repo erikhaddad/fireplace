@@ -6,6 +6,8 @@ import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'ang
 import {AuthService} from '../auth/auth.service';
 import {IPost, Post, IComment, IPerson, ILike, Person, ITag, ILocation, ICamera} from './data.model';
 
+import * as firebase from 'firebase';
+
 @Injectable()
 export class DataService {
     private publicPostsPath: string;
@@ -110,4 +112,8 @@ export class DataService {
         return this.af.database.list(this.peoplePath).update(person.$key, changes);
     }
 
+    /** LIKE **/
+    updatePostLikes(postId:string, userId:string, value: boolean): firebase.Promise<any> {
+        return this.af.database.object(this.likesPath+'/'+postId+'/'+userId).set(value ? firebase.database.ServerValue.TIMESTAMP : null);
+    }
 }
