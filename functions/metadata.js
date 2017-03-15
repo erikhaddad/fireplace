@@ -17,12 +17,33 @@ function convertDMSToDD(days, minutes, seconds, direction) {
     } // Don't do anything for N or E
     return dd;
 }
+/* Expected input: lES9QqFENNZZkd3mCtTQLVgiNUQ2/full/-KfFC5qX2Eiex_oGYfCP/IMG_20170313_134331.jpg */
+function derivePathMap(path) {
+    let pathMap = {};
+
+    if (!!path) {
+        let pathTokens = path.split('/');
+
+        if (pathTokens.length == 4) {
+            let userId = pathTokens[0];
+            let postId = pathTokens[2];
+            let filename = pathTokens[3];
+
+            if (!!userId && !!postId && !!filename) {
+                pathMap = {userId: userId, postId: postId, filename: filename};
+            }
+        }
+    }
+
+    return pathMap;
+}
 
 function getPhotoMetadata(evt) {
     const object = evt.data; // The Storage object.
 
     const fileBucket = object.bucket; // The Storage bucket that contains the file.
     const filePath = object.name; // File path in the bucket.
+    const pathMap = derivePathMap(filePath);
     const contentType = object.contentType; // File content type.
     const resourceState = object.resourceState; // The resourceState is 'exists' or 'not_exists' (for file/folder deletions).
 
@@ -95,7 +116,7 @@ function getPhotoMetadata(evt) {
                                     }, function (err, response) {
                                         //console.log('reverseGeocode', err, response);
 
-                                        admin.database().ref('locations/').push(response.json.results);
+                                        admin.database().ref().child('locations/'+pathMap.postId).set(response.json.results);
                                     });
                                 } catch (e) {
                                     console.error('catch reverseGeocode', e);
@@ -107,7 +128,7 @@ function getPhotoMetadata(evt) {
                                 make = exifData.image.Make;
                                 model = exifData.image.Model;
 
-                                admin.database().ref('cameras/').push({make: make, model: model});
+                                admin.database().ref().child('cameras/'+pathMap.postId).set({make: make, model: model});
                             }
 
                             //admin.database().ref('metadata/').push(exifData);

@@ -6,25 +6,40 @@ const admin = require('firebase-admin');
 const vision = require('@google-cloud/vision')();
 const util = require('util');
 
+
+/* Expected input: lES9QqFENNZZkd3mCtTQLVgiNUQ2/full/-KfFC5qX2Eiex_oGYfCP/IMG_20170313_134331.jpg */
+function derivePathMap(path) {
+    let pathMap = {};
+
+    if (!!path) {
+        let pathTokens = path.split('/');
+
+        if (pathTokens.length == 4) {
+            let userId = pathTokens[0];
+            let postId = pathTokens[2];
+            let filename = pathTokens[3];
+
+            if (!!userId && !!postId && !!filename) {
+                pathMap = {userId: userId, postId: postId, filename: filename};
+            }
+        }
+    }
+
+    return pathMap;
+}
+
 function annotatePhoto(evt) {
     const object = evt.data; // The Storage object.
 
     const fileBucket = object.bucket; // The Storage bucket that contains the file.
     const filePath = object.name; // File path in the bucket.
+    const pathMap = derivePathMap(filePath);
     const contentType = object.contentType; // File content type.
     const resourceState = object.resourceState; // The resourceState is 'exists' or 'not_exists' (for file/folder deletions).
 
     // Exit if this is triggered on a file that is not an image.
     if (!contentType.startsWith('image/')) {
         console.log('This is not an image.');
-        return;
-    }
-
-    // Get the file name.
-    const fileName = filePath.split('/').pop();
-    // Exit if the image is already a thumbnail.
-    if (fileName.startsWith('thumb_')) {
-        console.log('Already a Thumbnail.');
         return;
     }
 
@@ -58,7 +73,7 @@ function annotatePhoto(evt) {
             // Save the annotations into the file in the database
             let labelAnnotations = _.get(annotations, '[0].labelAnnotations');
             if (labelAnnotations) {
-                return admin.database().ref('tags/').push(labelAnnotations);
+                return admin.database().ref().child('tags/'+pathMap.postId).update(labelAnnotations);
             }
         });
 }

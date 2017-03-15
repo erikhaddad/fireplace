@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation, OnDestroy} from '@angular/core';
 import {DataService} from "../common/data.service";
-import {IPost, IComment, IPerson, ILike, ITag, ICamera, ILocation, CombinedPost} from "../common/data.model";
+import {IPost, IComment, IPerson, ILike, ITag, ICamera, ILocation, CompositePost, Post} from "../common/data.model";
 
 import {Observable} from 'rxjs';
 import {FirebaseListObservable} from "angularfire2";
@@ -34,9 +34,11 @@ export class FeedComponent implements OnInit, OnDestroy {
     private locations: ILocation[];
     private cameras: ICamera[];
 
-    private combinedPosts: CombinedPost[];
+    private compositePosts: CompositePost[];
 
     constructor(private dataService: DataService, private authService: AuthService) {
+
+        /*
         this.dataService.publicPosts.subscribe(queriedItems => {
             this.publicPosts = queriedItems.reverse();
 
@@ -82,7 +84,7 @@ export class FeedComponent implements OnInit, OnDestroy {
 
             console.log('cameras', this.cameras);
         });
-
+        */
 
         this.publicPosts$ = this.dataService.publicPosts;
         this.userPosts$ = this.dataService.userPosts;
@@ -92,13 +94,18 @@ export class FeedComponent implements OnInit, OnDestroy {
         this.tags$ = this.dataService.tags;
         this.locations$ = this.dataService.locations;
         this.cameras$ = this.dataService.cameras;
-        
-        
+
+        this.compositePosts = [];
+        this.combineData();
     }
 
     ngOnInit() {}
 
     ngOnDestroy() {}
+
+    togglePostLike(post:CompositePost, evt:Event) {
+        post.liked = !post.liked;
+    }
 
     combineData() {
         /*
@@ -135,17 +142,81 @@ export class FeedComponent implements OnInit, OnDestroy {
                 this.tags$,
                 this.locations$,
                 this.cameras$,
-                (publicPosts, userPosts, comments, likes, people, tags, locations, cameras) => {
+                (publicPosts:IPost[], userPosts:IPost[], comments:IComment[], likes:ILike[], people:IPerson[], tags:ITag[], locations:ILocation[], cameras:ICamera[]) => {
 
                     _.each(publicPosts, post => {
                         let postId:string = post.$key;
 
-                        _.filter(userPosts, userPost => userPost.$key == postId);
+                        let showDebug = postId == '-KfFC5qX2Eiex_oGYfCP';
+
+                        let newCompositePost = new CompositePost();
+                        newCompositePost.id = postId;
+
+                        /** POST **/
+                        newCompositePost.author = post.author;
+                        newCompositePost.full_storage_uri = post.full_storage_uri;
+                        newCompositePost.full_url = post.full_url;
+                        newCompositePost.text = post.text;
+                        newCompositePost.thumb_storage_uri = post.thumb_storage_uri;
+                        newCompositePost.thumb_url = post.thumb_url;
+                        newCompositePost.timestamp = post.timestamp;
+
+                        /** LIKES **/
+                        let postLikeCount = 0;
+                        let isPostLiked = false;
+                        let postLikes = _.find(likes, like => like.$key == postId);
+                        if (!!postLikes) {
+                            let keys = Object.keys(postLikes);
+                            //isPostLiked = _.indexOf(this.compositePosts, this.authService.id);
+                            postLikeCount = keys.length;
+                        }
+                        newCompositePost.liked = isPostLiked;
+                        newCompositePost.likes = postLikeCount;
+
+                        /** TAGS **/
+                        let postTags = _.find(tags, tag => tag.$key == postId);
+                        if (Array.isArray(postTags) && postTags.length > 0) {
+                            newCompositePost.tags = postTags;
+                        }
+
+                        /** LOCATIONS **/
+                        let postLocations = _.find(locations, location => location.$key == postId);
+                        if (Array.isArray(postLocations) && postLocations.length > 0) {
+                            newCompositePost.location = postLocations[0];
+                        }
+
+                        /** CAMERA **/
+                        let postCamera = _.find(cameras, camera => camera.$key == postId);
+                        newCompositePost.camera = postCamera;
 
 
+                        if (showDebug) {
+                            console.log('this postId', postId);
+                            console.log('this post likes', postLikes);
+                            console.log('this post tags', postTags);
+                            console.log('this post location', postLocations);
+                            console.log('this post camera', postCamera);
+                        }
+
+                        /** RESULT **/
+                        console.log('new composite post', newCompositePost);
+                        //this.compositePosts[postId] = newCompositePost;
+
+                        // Find item index using indexOf+find
+                        let index = _.indexOf(this.compositePosts, _.find(this.compositePosts, {id: postId}));
+
+                        if (index > -1) {
+                            // Replace item at index using native splice
+                            this.compositePosts.splice(index, 1, newCompositePost);
+                        } else {
+                            this.compositePosts.push(newCompositePost);
+                        }
                     });
 
-                    return "";
+                    this.compositePosts = _.orderBy(this.compositePosts, ['timestamp', 'id'], ['desc', 'desc']);
+                    console.log('compositePosts', this.compositePosts);
+
+                    return this.compositePosts;
                 }
             );
 

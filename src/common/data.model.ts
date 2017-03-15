@@ -115,10 +115,19 @@ export class Post implements IPost {
     constructor() {}
 }
 
-export class CombinedPost {
+export class CompositePost {
+    id: string;
+
     author: IAuthor;
+    full_storage_uri: string;
+    full_url: string;
+    text: string;
+    thumb_storage_uri: string;
+    thumb_url: string;
+    timestamp: number|object;
 
     camera: ICamera;
+    liked: boolean;
     likes: number;
     comments: IComment[];
     tags: ITag[];
