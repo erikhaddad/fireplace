@@ -92,7 +92,7 @@ function getPhotoMetadata(evt) {
                                 exifData.gps.GPSLongitude.length == 3) {
 
                                 let mapsClient = maps.createClient(
-                                    { key: 'AIzaSyDNl3uihAT5EYQwjCOK_NEQn_9XZFKx6u8' }
+                                    { key: 'AIzaSyA-il0hK1qwbjR-DF-ggS5sI5oOjhsOv9M' }
                                 );
 
                                 let latitude, longitude;

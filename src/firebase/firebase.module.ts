@@ -1,11 +1,11 @@
 import {AngularFireModule, AuthMethods} from 'angularfire2';
 
 export const firebaseConfig = {
-    apiKey: "AIzaSyCjt8GegI5LGswEdbWi6-WVlCJwxoIrcRo",
-    authDomain: "fireplace-22d32.firebaseapp.com",
-    databaseURL: "https://fireplace-22d32.firebaseio.com",
-    storageBucket: "fireplace-22d32.appspot.com",
-    messagingSenderId: "166679574539"
+    apiKey: "AIzaSyCN6tRaZEdRALfbKLQnnYR2iZiSKeOV4l4",
+    authDomain: "fireplace-867ee.firebaseapp.com",
+    databaseURL: "https://fireplace-867ee.firebaseio.com",
+    storageBucket: "fireplace-867ee.appspot.com",
+    messagingSenderId: "1085491840581"
 };
 
 export const firebaseAuthConfig = {
