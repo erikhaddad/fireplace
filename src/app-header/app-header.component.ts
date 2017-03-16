@@ -62,36 +62,6 @@ export class AppHeaderComponent {
             contentType: fileForUpload.type
         };
 
-        /*
-        let picUploadTask = newImageRef.put(fileForUpload, metadata)
-            .on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-                function (snapshot) {
-                    // Get task progress, including the number of bytes
-                    // uploaded and the total number of bytes to be uploaded
-                    let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
-                    switch (snapshot.state) {
-                        case firebase.storage.TaskState.PAUSED: // or 'paused'
-                            console.log('Upload is paused');
-                            break;
-                        case firebase.storage.TaskState.RUNNING: // or 'running'
-                            console.log('Upload is running');
-                            break;
-                        case firebase.storage.TaskState.SUCCESS:
-                            console.log('New pic uploaded. Size:', snapshot.totalBytes, 'bytes.');
-                            let url = snapshot.metadata.downloadURLs[0];
-                            console.log('File available at', url);
-                            return url;
-                    }
-                }, function (error) {
-                    // Upload failed
-                    console.error(error);
-                }, function () {
-                    // Upload completed successfully
-
-                });
-        */
-
         let picUploadTask = newImageRef.put(fileForUpload, metadata)
             .then(snapshot => {
                 console.log('New pic uploaded. Size:', snapshot.totalBytes, 'bytes.');
@@ -103,7 +73,7 @@ export class AppHeaderComponent {
                 console.error('Error while uploading new pic', error);
             });
 
-        let newImageText = 'Using tags from Cloud Vision instead';
+        let newImageText = 'Using tags from Cloud Vision!';
 
         // using Promise.all in case I add more tasks prior to upload
         return Promise.all([picUploadTask]).then(urls => {

@@ -5,7 +5,7 @@ const admin = require('firebase-admin');
 const util = require('util');
 
 function createPerson(evt) {
-    const user = event.data; // The Firebase user. Type: functions.auth.UserRecord
+    const user = evt.data; // The Firebase user. Type: functions.auth.UserRecord
 
     const email = user.email; // The email of the user.
     const displayName = user.displayName; // The display name of the user.
@@ -20,7 +20,7 @@ function createPerson(evt) {
         profile_picture: user.photoURL
     };
 
-    admin.database().ref('person/'+user.uid).update(personObj);
+    admin.database().ref('people/'+user.uid).update(personObj);
 }
 
 module.exports = {

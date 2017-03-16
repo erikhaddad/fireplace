@@ -1,6 +1,6 @@
 <div class="app-content-container">
-  <div class="app-content" *ngIf="compositePosts && compositePosts.length > 0">
-    <div class="fp-posts">
+  <div class="app-content" *ngIf="compositePosts">
+    <div class="fp-posts" *ngIf="compositePosts.length > 0">
       <md-card class="post-card" *ngFor="let post of compositePosts">
 
         <md-card-header class="post-header">
@@ -73,7 +73,7 @@
       </md-card>
     </div>
 
-    <div class="fp-no-posts" *ngIf="!compositePosts || compositePosts.length == 0" fxLayout="column" fxLayoutAlign="center center">
+    <div class="fp-no-posts" *ngIf="compositePosts.length == 0" fxLayout="column" fxLayoutAlign="center center">
       <img class="placeholder" src="/assets/images/feed-placeholder.gif" />
     </div>
   </div>

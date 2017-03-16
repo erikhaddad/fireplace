@@ -14,7 +14,8 @@
       <div fxFlex></div>
 
       <!-- Search bar -->
-      <div class="fp-searchcontainer" fxLayout="row" fxLayoutAlign="start center">
+      <div class="fp-searchcontainer" fxLayout="row" fxLayoutAlign="start center"
+           *ngIf="false">
         <button md-icon-button (click)="toggleShowSearchInput($event)">
           <md-icon>search</md-icon>
         </button>
@@ -50,17 +51,21 @@
           <md-icon>perm_contact_calendar</md-icon>
           <span>About - Help - Contact</span>
         </button>
-        <button md-menu-item (click)="triggerSignOut($event)">
+        <button md-menu-item (click)="triggerSignOut($event)"
+                *ngIf="authenticated">
           <md-icon>exit_to_app</md-icon>
           <span>Sign out</span>
         </button>
       </md-menu>
 
 
-      <button md-fab class="fp-signed-in-only" id="add" (click)="triggerInputFileClick($event)">
+      <button md-fab class="fp-signed-in-only" id="add"
+              *ngIf="authenticated"
+              (click)="triggerInputFileClick($event)">
         <md-icon>file_upload</md-icon>
       </button>
       <input id="new-post-input" type="file"
+             *ngIf="authenticated"
              ([ngModel])="agentImageFile" name="inputFile" accept="image/*"
              (change)="onInputFileChange($event)" />
 
