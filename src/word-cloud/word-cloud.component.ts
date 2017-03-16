@@ -1,18 +1,22 @@
 import {Component, Input, ElementRef, DoCheck, KeyValueDiffers} from '@angular/core';
 import * as D3 from 'd3';
+import {DataService} from "../common/data.service";
+import {ITag} from "../common/data.model";
 
-declare let d3: any;
+import * as _ from "lodash";
 
-export interface WordCloudSettings {
+//declare let d3: any;
+
+export interface IWordCloudSettings {
     minFontSize: number; // default 18
     maxFontSize: number; // default 96
     fontFace: string; // default Roboto
     fontWeight: string; // default normal
     spiral: string; // default rectangular
 }
-export interface WordCloudConfig {
+export class WordCloudConfig {
     dataset: string[];
-    settings: WordCloudSettings;
+    settings: IWordCloudSettings;
 }
 
 @Component({
@@ -22,7 +26,10 @@ export interface WordCloudConfig {
 })
 export class WordCloudComponent implements DoCheck {
 
-    @Input() config: WordCloudConfig;
+    @Input() private settings:IWordCloudSettings;
+
+    private config:WordCloudConfig;
+    private tags:ITag[];
 
     private _host;              // D3 object referencing host DOM object
     private _svg;               // SVG in which we will print our chart
@@ -41,10 +48,58 @@ export class WordCloudComponent implements DoCheck {
     private _fillScale;                 // D3 scale for text color
     private _objDiffer;
 
-    constructor(private _element: ElementRef, private _keyValueDiffers: KeyValueDiffers) {
+
+    constructor(private _element: ElementRef,
+                private _keyValueDiffers: KeyValueDiffers,
+                private dataService:DataService) {
         this._htmlElement = this._element.nativeElement;
         this._host = D3.select(this._element.nativeElement);
         this._objDiffer = this._keyValueDiffers.find([]).create(null);
+
+
+        this.config = new WordCloudConfig();
+        this.config.dataset = ['foo', 'bar', 'baz'];
+
+        if (!!this.settings) {
+            this.config.settings = this.settings;
+        } else {
+            this.config.settings = {
+                minFontSize: 18,
+                maxFontSize: 96,
+                fontFace: 'Roboto',
+                fontWeight: 'normal',
+                spiral: 'rectangular'
+            };
+        }
+
+        this.dataService.tags.subscribe(queriedItems => {
+            this.tags = queriedItems;
+
+            /*
+            console.log('tags array', this.tags);
+
+            let flatTags = this.flatten(this.tags);
+            console.log('flat tags', flatTags);
+            */
+
+            /*
+            _.each(this.tags, postTags => {
+                _.each(postTags, tag =>  this.config.dataset.push(tag.description));
+            });
+
+            queriedItems.map(postTags =>
+                postTags.map(tag => this.config.dataset.push(tag.description))
+            );
+            */
+
+            /*
+            let foo = _.map(this.tags, postTags:ITag[] => {
+                this.config.dataset.concat(_.map(postTags, 'description'));
+            });
+            */
+
+            console.log('tags', this.tags);
+        });
     }
 
     ngDoCheck() {
@@ -100,7 +155,7 @@ export class WordCloudComponent implements DoCheck {
         let fontWeight: string = (this.config.settings.fontWeight == null) ? 'normal' : this.config.settings.fontWeight;
         let spiralType: string = (this.config.settings.spiral == null) ? 'rectangular' : this.config.settings.spiral;
 
-        d3.layout.cloud()
+        D3.layout.cloud()
             .size([this._width, this._height])
             .words(this.config.dataset)
             .rotate(() => 0)
@@ -130,6 +185,12 @@ export class WordCloudComponent implements DoCheck {
             .text(d => {
                 return d.word;
             });
+    }
+
+    private flatten(items) {
+        return _.flatMap(items, function(item) {
+            return item.items ? this.flatten(item.items) : item;
+        })
     }
 
 }
