@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation, OnDestroy} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation, OnDestroy, ViewContainerRef} from '@angular/core';
 import {DataService} from "../common/data.service";
 import {IPost, IComment, IPerson, ILike, ITag, ICamera, ILocation, CompositePost, Post} from "../common/data.model";
 
@@ -7,6 +7,8 @@ import {FirebaseListObservable} from "angularfire2";
 
 import * as _ from "lodash";
 import {AuthService} from "../auth/auth.service";
+import {MdDialogRef, MdDialog, MdDialogConfig} from "@angular/material";
+import {PostComponent} from "../post/post.component";
 
 @Component({
     selector: 'feed-root',
@@ -20,6 +22,8 @@ export class FeedComponent implements OnInit, OnDestroy {
     private compositePosts: CompositePost[];
     private subscribePosts:Subscription;
 
+    private postDialogRef: MdDialogRef<PostComponent>;
+
     // Realtime Database observables
     private publicPosts$: FirebaseListObservable<IPost[]>;
     private userPosts$: FirebaseListObservable<IPost[]>;
@@ -30,7 +34,11 @@ export class FeedComponent implements OnInit, OnDestroy {
     private locations$: FirebaseListObservable<ILocation[]>;
     private cameras$: FirebaseListObservable<ICamera[]>;
 
-    constructor(private dataService: DataService, private authService: AuthService) {
+    constructor(private dataService: DataService,
+                private authService: AuthService,
+                public dialog: MdDialog,
+                public viewContainerRef: ViewContainerRef) {
+
         this.publicPosts$ = this.dataService.publicPosts;
         this.userPosts$ = this.dataService.userPosts;
         this.comments$ = this.dataService.comments;
@@ -69,8 +77,6 @@ export class FeedComponent implements OnInit, OnDestroy {
 
                     _.each(publicPosts, post => {
                         let postId:string = post.$key;
-
-                        let showDebug = false;
 
                         let newCompositePost = new CompositePost();
                         newCompositePost.id = postId;
@@ -112,15 +118,6 @@ export class FeedComponent implements OnInit, OnDestroy {
                         let postCamera = _.find(cameras, camera => camera.$key == postId);
                         newCompositePost.camera = postCamera;
 
-
-                        if (showDebug) {
-                            console.log('this postId', postId);
-                            console.log('this post likes', postLikes);
-                            console.log('this post tags', postTags);
-                            console.log('this post location', postLocations);
-                            console.log('this post camera', postCamera);
-                        }
-
                         /** RESULT **/
                         // Find item index using indexOf+find
                         let index = _.indexOf(this.compositePosts, _.find(this.compositePosts, {id: postId}));
@@ -143,5 +140,13 @@ export class FeedComponent implements OnInit, OnDestroy {
         this.subscribePosts = combinedPosts.subscribe(latestValuesProject => console.log(latestValuesProject));
     }
 
+    showPost(post:CompositePost, evt:Event) {
+
+        let config = new MdDialogConfig();
+        config.viewContainerRef = this.viewContainerRef;
+
+        this.postDialogRef = this.dialog.open(PostComponent, config);
+        this.postDialogRef.componentInstance.currentPost = post;
+    }
 
 }

@@ -20,11 +20,13 @@ import {AppHeaderComponent} from '../app-header/app-header.component';
 import {FeedModule} from "../feed/feed.module";
 import {WordCloudModule} from "../word-cloud/word-cloud.module";
 import {PersonModule} from "../person/person.module";
+import {PostComponent} from "../post/post.component";
 
 @NgModule({
     declarations: [
         AppComponent,
-        AppHeaderComponent
+        AppHeaderComponent,
+        PostComponent
     ],
     imports: [
         BrowserModule,
@@ -45,6 +47,7 @@ import {PersonModule} from "../person/person.module";
         PersonModule,
         WordCloudModule
     ],
+    entryComponents: [PostComponent],
     providers: [],
     bootstrap: [AppComponent]
 })

@@ -8,15 +8,15 @@
       <div class="fp-name-follow-container mdl-cell mdl-cell--5-col">
         <div class="fp-user-username">{{ currentPerson.full_name }}</div>
 
-        <div class="fp-signed-in-only" *ngIf="userId == authService.id">
+        <div class="fp-signed-in-only" *ngIf="personId == authService.id">
           <md-slide-toggle
-              [(ngModel)]="notificationsEnabled"
+              [(ngModel)]="currentPerson.notificationsEnabled"
               [color]="'primary'">
-            Notifications {{ notificationsEnabled ? 'Enabled' : 'Disabled' }}
+            Notifications {{ currentPerson.notificationsEnabled ? 'Enabled' : 'Disabled' }}
           </md-slide-toggle>
         </div>
 
-        <div class="fp-signed-in-only" *ngIf="userId != authService.id">
+        <div class="fp-signed-in-only" *ngIf="personId != authService.id">
           <md-slide-toggle
               [(ngModel)]="followingEnabled"
               [color]="'primary'">
@@ -25,11 +25,13 @@
         </div>
 
         <div class="fp-user-detail-container">
-          <div class="fp-user-detail"><span class="fp-user-nbposts">4</span> posts</div>
+          <div class="fp-user-detail"><span class="fp-user-nbposts">{{ compositePosts ? compositePosts.length : 0 }}</span> {{ compositePosts && compositePosts.length != 1  ? 'posts' : 'post' }}</div>
+          <!--
           <div class="fp-user-detail"><span class="fp-user-nbfollowers">1</span> followers</div>
           <div class="fp-user-detail fp-user-nbfollowing-container"
                [ngClass]="{'is-active': showFollowers}"
                (click)="toggleShowFollowers($event)"><span class="fp-user-nbfollowing">1</span> following</div>
+           -->
         </div>
       </div>
     </div>
@@ -49,19 +51,19 @@
     <div class="fp-image-container">
       <md-grid-list cols="3" rowHeight="200px" gutterSize="12px">
         <md-grid-tile
-            *ngFor="let post of publicPosts"
+            *ngFor="let post of compositePosts"
             [colspan]="1"
             [rowspan]="1">
 
-          <a href="/post/-KeuECpCSySRuXpoBIii" class="fp-image">
+          <div class="fp-image" (click)="showPost(post, $event)">
             <div class="fp-overlay">
-              <md-icon>favorite</md-icon><span class="likes">0</span>
-              <md-icon>mode_comment</md-icon><span class="comments">0</span>
-              <div class="fp-pic-text">{{ post.text }}</div>
+              <md-icon>favorite</md-icon><span class="likes">{{ post.likes }}</span>
+              <md-icon>label</md-icon><span class="comments">{{ post.tags.length }}</span>
+              <div class="fp-pic-text" *ngIf="false">{{ post.text }}</div>
             </div>
             <div class="mdl-card"
                  [ngStyle]="{ 'background-image': 'url(' + post.full_url + ')' }"></div>
-          </a>
+          </div>
         </md-grid-tile>
       </md-grid-list>
     </div>

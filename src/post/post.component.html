@@ -1,0 +1,7 @@
+<div class="fp-fullpic-container">
+  <!--<img class="fp-fullpic" [src]="currentPost.full_url" />-->
+
+  <div class="fp-fullpic"
+       *ngIf="currentPost.full_url"
+       [ngStyle]="{'background-image': 'url(' + currentPost.full_url + ')'}"></div>
+</div>

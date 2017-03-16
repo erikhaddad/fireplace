@@ -43,6 +43,7 @@
 
         <div md-card-image class="post-image"
              *ngIf="post.full_url"
+             (click)="showPost(post, $event)"
              [ngStyle]="{'background-image': 'url(' + post.full_url + ')'}"></div>
 
         <md-card-content class="post-content">

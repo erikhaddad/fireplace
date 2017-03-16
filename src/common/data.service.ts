@@ -22,7 +22,7 @@ export class DataService {
 
     constructor(private af: AngularFire, private auth: AuthService) {
         this.publicPostsPath = `/posts`;
-        this.userPostsPath = `/feed/${auth.id}`;
+        this.userPostsPath = `/feed/${auth.id}/posts`;
         this.commentsPath = `/comments/`;
         this.likesPath = `/likes/`;
         this.peoplePath = `/people/`;
@@ -115,5 +115,26 @@ export class DataService {
     /** LIKE **/
     updatePostLikes(postId:string, userId:string, value: boolean): firebase.Promise<any> {
         return this.af.database.object(this.likesPath+'/'+postId+'/'+userId).set(value ? firebase.database.ServerValue.TIMESTAMP : null);
+    }
+
+
+
+
+
+
+    getPublicPostComments(id: string): FirebaseObjectObservable<any> {
+        return this.af.database.object(this.commentsPath+'/'+id);
+    }
+    getPublicPostLikes(id: string): FirebaseObjectObservable<any> {
+        return this.af.database.object(this.likesPath+'/'+id);
+    }
+    getPublicPostTags(id: string): FirebaseObjectObservable<any> {
+        return this.af.database.object(this.tagsPath+'/'+id);
+    }
+    getPublicPostLocation(id: string): FirebaseObjectObservable<any> {
+        return this.af.database.object(this.locationsPath+'/'+id);
+    }
+    getPublicPostCamera(id: string): FirebaseObjectObservable<any> {
+        return this.af.database.object(this.camerasPath+'/'+id);
     }
 }
