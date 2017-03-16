@@ -22,3 +22,17 @@
     cursor: pointer;
   }
 }
+
+@media screen and (max-width: 840px) {
+  .fp-fullpic-container fp-fullpic {
+    min-height: 640px;
+    min-width: 640px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .fp-fullpic-container fp-fullpic {
+    min-height: 460px;
+    min-width: 460px;
+  }
+}

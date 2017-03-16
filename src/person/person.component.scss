@@ -204,11 +204,25 @@
 
 /* User Info photo cards */
 
-.fp-image-container {
+.fp-images-container {
   display: flex;
   flex-flow: row wrap;
   margin: 0 auto;
   align-items: stretch;
+  position: relative;
+  padding: 12px;
+  box-sizing: border-box;
+
+  .fp-image-container {
+    width: calc(33% - 12px);
+    height: 200px;
+    float: left;
+    margin: 6px;
+
+    .fp-image {
+      margin: 6px;
+    }
+  }
 
   md-grid-list {
     margin: 24px;

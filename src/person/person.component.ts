@@ -26,6 +26,7 @@ export class PersonComponent implements OnInit, OnDestroy {
 
     // UI controls
     private showFollowers: boolean;
+    private followingEnabled: boolean;
     private postDialogRef: MdDialogRef<PostComponent>;
 
     // Posts shown in the feed
@@ -49,6 +50,9 @@ export class PersonComponent implements OnInit, OnDestroy {
                 public viewContainerRef: ViewContainerRef) {
 
         this.showFollowers = false;
+        this.followingEnabled = false;
+
+        this.compositePosts = [];
 
         this.publicPosts$ = this.dataService.publicPosts;
         this.userPosts$ = this.dataService.userPosts;
@@ -58,8 +62,6 @@ export class PersonComponent implements OnInit, OnDestroy {
         this.tags$ = this.dataService.tags;
         this.locations$ = this.dataService.locations;
         this.cameras$ = this.dataService.cameras;
-
-        this.compositePosts = [];
     }
 
     ngOnInit() {

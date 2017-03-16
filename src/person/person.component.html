@@ -25,7 +25,7 @@
         </div>
 
         <div class="fp-user-detail-container">
-          <div class="fp-user-detail"><span class="fp-user-nbposts">{{ compositePosts ? compositePosts.length : 0 }}</span> {{ compositePosts && compositePosts.length != 1  ? 'posts' : 'post' }}</div>
+          <div class="fp-user-detail" *ngIf="compositePosts"><span class="fp-user-nbposts">{{ compositePosts.length }}</span> {{ compositePosts.length != 1  ? 'posts' : 'post' }}</div>
           <!--
           <div class="fp-user-detail"><span class="fp-user-nbfollowers">1</span> followers</div>
           <div class="fp-user-detail fp-user-nbfollowing-container"
@@ -48,7 +48,19 @@
       </button>
     </div>
 
-    <div class="fp-image-container">
+    <div class="fp-images-container" *ngIf="compositePosts && compositePosts.length > 0">
+      <div class="fp-image-container" *ngFor="let post of compositePosts">
+        <div class="fp-image" (click)="showPost(post, $event)">
+          <div class="fp-overlay">
+            <md-icon>favorite</md-icon><span class="likes">{{ post.likes }}</span>
+            <md-icon>label</md-icon><span class="comments">{{ post.tags ? post.tags.length : 0 }}</span>
+            <div class="fp-pic-text" *ngIf="false">{{ post.text }}</div>
+          </div>
+          <div class="mdl-card"
+               [ngStyle]="{ 'background-image': 'url(' + post.full_url + ')' }"></div>
+        </div>
+      </div>
+      <!--
       <md-grid-list cols="3" rowHeight="200px" gutterSize="12px">
         <md-grid-tile
             *ngFor="let post of compositePosts"
@@ -66,6 +78,7 @@
           </div>
         </md-grid-tile>
       </md-grid-list>
+      -->
     </div>
   </div>
 </div>

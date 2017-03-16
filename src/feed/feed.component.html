@@ -18,7 +18,7 @@
                fxLayout="row" fxLayoutAlign="start center"
                *ngIf="post.location">
               <md-icon>location_on</md-icon>
-              <span>{{ post.location.formatted_address }}</span>
+              <span mdTooltip="{{ post.location.formatted_address }}">{{ post.location.formatted_address }}</span>
             </p>
           </md-card-subtitle>
 
@@ -29,14 +29,14 @@
                  fxLayout="row" fxLayoutAlign="end center"
                  *ngIf="post.timestamp">
               <md-icon>history</md-icon>
-              <span mdTooltip="{{post.timestamp | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}">{{ post.timestamp | amTimeAgo:true }} ago</span>
+              <span mdTooltip="{{ post.timestamp | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a' }}">{{ post.timestamp | amTimeAgo:true }} ago</span>
             </div>
 
             <p class="camera-info"
                fxLayout="row" fxLayoutAlign="end center"
                *ngIf="post.camera">
               <md-icon>photo_camera</md-icon>
-              <span>{{ post.camera.make }} {{ post.camera.model }}</span>
+              <span mdTooltip="{{ post.camera.make + ' ' + post.camera.model }}">{{ post.camera.make }} {{ post.camera.model }}</span>
             </p>
           </div>
         </md-card-header>

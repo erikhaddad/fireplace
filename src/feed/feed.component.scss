@@ -15,6 +15,11 @@
     text-align: left;
     text-decoration: none;
     color: #000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    white-space: nowrap;
+    max-width: 346px;
     
     &:hover {
       text-decoration: underline;
@@ -37,6 +42,11 @@
       display: inline-block;
       margin-left: 2px;
       color: rgba(0,0,0,.54);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-wrap: break-word;
+      white-space: nowrap;
+      max-width: 346px;
     }
   }
 
@@ -100,6 +110,7 @@
     display: inline-block;
     .mat-chip {
       cursor: pointer;
+      margin: 2px;
     }
   }
 
@@ -126,5 +137,20 @@
       padding-left: 4px;
       color: rgba(0,0,0,.54);
     }
+  }
+}
+
+
+@media screen and (max-width: 640px) {
+  .post-card .post-user-link,
+  .post-card .post-location span {
+    max-width: 204px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .post-card .post-user-link,
+  .post-card .post-location span {
+    max-width: 160px;
   }
 }
