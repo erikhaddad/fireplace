@@ -6,7 +6,7 @@
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.34);
 
-  .avatar-hero {
+  .fireplace-hero {
     md-icon {
       height: 512px;
       width: 512px;
@@ -20,6 +20,51 @@
     .get-started-btn {
       text-transform: uppercase;
       font-weight: 500;
+    }
+  }
+}
+
+@media screen and (max-width: 840px) {
+  .landing {
+    margin: 0;
+    max-width: 100%;
+    padding: 16px;
+    background-color: rgba(0, 0, 0, 0.44);
+    border-radius: 0;
+    border: none;
+    height: 100%;
+    width: 100%;
+
+    .fireplace-hero {
+      md-icon {
+        height: 480px;
+        width: 480px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .landing {
+    margin: 0;
+    max-width: 100%;
+    padding: 16px;
+    background-color: rgba(0, 0, 0, 0.44);
+    border-radius: 0;
+    box-sizing: border-box;
+    border: none;
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-content: center;
+
+    .fireplace-hero {
+      md-icon {
+        height: 240px;
+        width: 240px;
+      }
     }
   }
 }

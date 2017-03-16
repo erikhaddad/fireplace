@@ -106,6 +106,8 @@
     padding: 0;
 
     .fp-header {
+      max-width: 100%;
+
       .fp-titlebar {
         height: 56px;
 
@@ -119,6 +121,12 @@
             font-size: 23px;
           }
         }
+      }
+
+      #add {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
       }
     }
   }
@@ -165,6 +173,12 @@
             }
           }
         }
+      }
+
+      #add {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
       }
     }
   }
