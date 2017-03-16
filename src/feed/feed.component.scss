@@ -31,6 +31,7 @@
   .post-location {
     margin: 0;
     padding: 0;
+    text-decoration: none;
 
     md-icon {
       color: rgba(0,0,0,.32);
@@ -47,6 +48,12 @@
       word-wrap: break-word;
       white-space: nowrap;
       max-width: 346px;
+    }
+    
+    &:hover {
+      span {
+        text-decoration: underline;
+      }
     }
   }
 
@@ -105,6 +112,14 @@
   }
   .btn-like {
     color: #FF5252;
+  }
+  .like-count {
+    display: inline-block;
+    font-weight: 500;
+    font-size: 14px;
+    color: #444;
+    margin-left: -6px;
+    margin-right: 12px;
   }
   .tags-chip-list {
     display: inline-block;

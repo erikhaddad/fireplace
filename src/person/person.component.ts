@@ -1,6 +1,9 @@
 import {Component, OnInit, ViewEncapsulation, OnDestroy, ViewContainerRef} from '@angular/core';
 import {DataService} from "../common/data.service";
-import {IPost, IComment, IPerson, ILike, CompositePost, ITag, ICamera, ILocation} from "../common/data.model";
+import {
+    IPost, IComment, IPerson, ILike, CompositePost, ITag, ICamera, ILocation,
+    IFollower
+} from "../common/data.model";
 import {ActivatedRoute} from "@angular/router";
 
 import {Observable, Subscription} from 'rxjs';
@@ -24,9 +27,15 @@ export class PersonComponent implements OnInit, OnDestroy {
     private paramSubscription: any;
     private currentPerson: IPerson;
 
+    private following: IFollower;
+    private followingCount: number;
+
+    private followers: IFollower;
+    private followersCount: number;
+
     // UI controls
-    private showFollowers: boolean;
-    private followingEnabled: boolean;
+    private showFollowing: boolean;
+    private isFollowing: boolean;
     private postDialogRef: MdDialogRef<PostComponent>;
 
     // Posts shown in the feed
@@ -49,8 +58,8 @@ export class PersonComponent implements OnInit, OnDestroy {
                 public dialog: MdDialog,
                 public viewContainerRef: ViewContainerRef) {
 
-        this.showFollowers = false;
-        this.followingEnabled = false;
+        this.showFollowing = false;
+        this.isFollowing = false;
 
         this.compositePosts = [];
 
@@ -72,20 +81,60 @@ export class PersonComponent implements OnInit, OnDestroy {
                 .subscribe(person => {
                     this.currentPerson = person;
                     this.combineData();
+                    this.getFollowers();
+                    this.getFollowing();
                 });
+
         });
     }
 
     ngOnDestroy() {}
 
-    toggleShowFollowers(evt:Event) {
-        this.showFollowers = !this.showFollowers;
+    getFollowers() {
+        this.dataService.getUserFollowers(this.personId)
+            .subscribe(followers => {
+                this.followers = followers;
+
+                if (followers.$exists()) {
+                    let followersKeys = Object.keys(this.followers);
+                    //console.log('followers', followersKeys);
+                    this.followersCount = followersKeys.length;
+
+                    this.isFollowing = _.indexOf(followersKeys, this.authService.id) > -1;
+                } else {
+                    this.followersCount = 0;
+                }
+
+                //console.log('followers', this.followers, 'isFollowing', this.isFollowing);
+            });
     }
 
-    togglePostLike(post:CompositePost, evt:Event) {
-        post.liked = !post.liked;
+    getFollowing() {
+        this.dataService.getUserFollowing(this.personId)
+            .subscribe(following => {
+                this.following = following;
 
-        this.dataService.updatePostLikes(post.id, this.authService.id, post.liked);
+                if (following.$exists()) {
+                    let followingKeys = Object.keys(this.following);
+                    //console.log('following', followingKeys);
+                    this.followingCount = followingKeys.length;
+                } else {
+                    this.followingCount = 0;
+                }
+
+                //console.log('following', this.following, 'followingCount', this.followingCount);
+            });
+    }
+
+    toggleShowFollowers(evt:Event) {
+        this.showFollowing = !this.showFollowing;
+    }
+
+    toggleFollow(evt:Event) {
+        this.isFollowing = !this.isFollowing;
+
+        this.dataService.updateUserFollowing(this.authService.id, this.personId, this.isFollowing);
+        this.dataService.updateUserFollowers(this.personId, this.authService.id, this.isFollowing);
     }
 
     combineData() {

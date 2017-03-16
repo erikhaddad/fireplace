@@ -1,0 +1,17 @@
+<sebm-google-map [zoom]="zoom"
+                 [disableDefaultUI]="false"
+                 [zoomControl]="true"
+                 [latitude]="mapStartLat"
+                 [longitude]="mapStartLng">
+
+  <sebm-google-map-marker *ngFor="let location of locations"
+                          [title]="location[0].formatted_address"
+                          [latitude]="location[0].geometry.location.lat"
+                          [longitude]="location[0].geometry.location.lng">
+
+    <sebm-google-map-info-window>
+      <strong>{{ location[0].formatted_address }}</strong>
+    </sebm-google-map-info-window>
+
+  </sebm-google-map-marker>
+</sebm-google-map>

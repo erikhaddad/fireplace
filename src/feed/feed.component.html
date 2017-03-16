@@ -14,12 +14,12 @@
           </md-card-title>
 
           <md-card-subtitle>
-            <p class="post-location"
+            <a href="/map" class="post-location"
                fxLayout="row" fxLayoutAlign="start center"
                *ngIf="post.location">
               <md-icon>location_on</md-icon>
               <span mdTooltip="{{ post.location.formatted_address }}">{{ post.location.formatted_address }}</span>
-            </p>
+            </a>
           </md-card-subtitle>
 
           <div fxFlex></div>
@@ -53,7 +53,7 @@
             <md-icon class="fp-liked" *ngSwitchCase="true">favorite</md-icon>
             <md-icon class="fp-not-liked" *ngSwitchDefault>favorite_border</md-icon>
           </button>
-
+          <span class="like-count" *ngIf="post.likes > 0">{{ post.likes }}</span>
           <md-chip-list class="tags-chip-list" *ngIf="post.tags">
             <md-chip *ngFor="let tag of post.tags"
               mdTooltip="{{ tag.score | percent }}">{{ tag.description }}</md-chip>

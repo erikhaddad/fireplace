@@ -95,7 +95,7 @@
     margin: -5px 10px -5px -5px;
     opacity: 1;
   }
-  .fp-no-posts .mdl-card {
+  .fp-no-posts .image-card {
     display: flex;
     height: 100%;
     width: 100%;
@@ -221,6 +221,7 @@
 
     .fp-image {
       margin: 6px;
+      border-radius: 2px;
     }
   }
 
@@ -270,12 +271,13 @@
   .fp-overlay:hover {
     opacity: 0.6;
   }
-  .fp-image .mdl-card {
+  .fp-image .image-card {
     min-height: 200px;
     background-size: cover;
     background-position: 50% 50%;
     display: flex;
     justify-content: flex-end;
+    border-radius: 2px;
 
     height: 100%;
     width: 100%;

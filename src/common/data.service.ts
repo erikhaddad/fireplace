@@ -4,7 +4,7 @@ import 'rxjs/add/operator/switchMap';
 import {Injectable} from '@angular/core';
 import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
 import {AuthService} from '../auth/auth.service';
-import {IPost, Post, IComment, IPerson, ILike, Person, ITag, ILocation, ICamera} from './data.model';
+import {IPost, Post, IComment, IPerson, ILike, Person, ITag, ILocation, ICamera, IFollower} from './data.model';
 
 import * as firebase from 'firebase';
 
@@ -14,6 +14,7 @@ export class DataService {
     private userPostsPath: string;
     private commentsPath: string;
     private likesPath: string;
+    private followersPath: string;
     private peoplePath: string;
 
     private tagsPath: string;
@@ -26,6 +27,7 @@ export class DataService {
         this.commentsPath = `/comments/`;
         this.likesPath = `/likes/`;
         this.peoplePath = `/people/`;
+        this.followersPath = `/followers/`;
 
         this.tagsPath = `/tags/`;
         this.locationsPath = `/locations/`;
@@ -117,9 +119,20 @@ export class DataService {
         return this.af.database.object(this.likesPath+'/'+postId+'/'+userId).set(value ? firebase.database.ServerValue.TIMESTAMP : null);
     }
 
+    /** FOLLOW **/
+    getUserFollowers(id: string): FirebaseObjectObservable<IFollower> {
+        return this.af.database.object(this.followersPath+'/'+id);
+    }
+    updateUserFollowers(followedUserId:string, currentUserId:string, value: boolean): firebase.Promise<any> {
+        return this.af.database.object(`${this.followersPath}/${followedUserId}/${currentUserId}`).set(value ? true : null);
+    }
 
-
-
+    getUserFollowing(id: string): FirebaseObjectObservable<IFollower> {
+        return this.af.database.object(this.peoplePath + '/' + id +'/following');
+    }
+    updateUserFollowing(currentUserId:string, followedUserId:string, value: boolean): firebase.Promise<any> {
+        return this.af.database.object(`${this.peoplePath}/${currentUserId}/following/${followedUserId}`).set(value ? true : null);
+    }
 
 
     getPublicPostComments(id: string): FirebaseObjectObservable<any> {

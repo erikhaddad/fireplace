@@ -32,6 +32,13 @@ export interface ILike {
 export class Like implements ILike {
     timestamp: number;
 }
+export interface IFollower {
+    $key?: string;
+    $exists?: any;
+}
+export class Follower implements IFollower {
+    value: boolean;
+}
 
 export interface IPerson {
     $key?: string;
